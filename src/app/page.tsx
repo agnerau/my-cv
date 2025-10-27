@@ -1,5 +1,6 @@
 import CircularText from "./components/CircularText";
 import DecryptedText from "./components/DecryptedText";
+import GamePage from "./nicki/page";
 
 export default function Home() {
   return (
@@ -30,7 +31,7 @@ export default function Home() {
             text="Welcome to my website."
             speed={70}
             animateOn="view"
-            revealDirection="end"
+            revealDirection="start"
             sequential={true}
           />
         </div>
@@ -41,16 +42,7 @@ export default function Home() {
 
         <div className="w-full max-w-4xl h-[500px] border border-gray-300 rounded shadow-lg bg-white flex items-center justify-center">
           <p className="text-gray-500">PyGame Project Here</p>
-
-          {/*
-          <iframe
-            src="https://your-pygame-hosted-url.com"
-            width="1024"
-            height="600"
-            style={{ border: 'none' }}
-          />
-
-          */}
+          {/* <GamePage /> */}
         </div>
 
         <div className="w-full max-w-4xl h-[500px] border border-gray-300 rounded shadow-lg bg-white flex items-center justify-center">
