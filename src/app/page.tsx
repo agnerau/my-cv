@@ -1,6 +1,6 @@
 import CircularText from "./components/CircularText";
 import DecryptedText from "./components/DecryptedText";
-import GamePage from "./nicki/page";
+import Game from "../nicki/Game";
 
 export default function Home() {
   return (
@@ -41,8 +41,7 @@ export default function Home() {
         <h2 className="text-3xl font-bold text-center mb-8">PROJECTS</h2>
 
         <div className="w-full max-w-4xl h-[500px] border border-gray-300 rounded shadow-lg bg-white flex items-center justify-center">
-          <p className="text-gray-500">PyGame Project Here</p>
-          {/* <GamePage /> */}
+          <Game />
         </div>
 
         <div className="w-full max-w-4xl h-[500px] border border-gray-300 rounded shadow-lg bg-white flex items-center justify-center">
