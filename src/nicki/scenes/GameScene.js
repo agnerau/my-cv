@@ -62,8 +62,15 @@ export default class GameScene extends Phaser.Scene {
     this.startTime = this.time.now;
     this.timeLimit = 15000;
 
+    this.activeEntities = {
+      dollars: [],
+      cardis: [],
+      anacondas: [],
+      heels: [],
+    };
+
     this.nicki = this.physics.add.sprite(width / 2, height / 2, "nicki");
-    this.nicki.setDisplaySize(width * 0.1, height * 0.2);
+    this.nicki.setDisplaySize(width * 0.12, height * 0.24);
     this.nicki.setCollideWorldBounds(true);
     this.nicki.speed = 300;
     this.nicki.shieldActive = false;
@@ -120,9 +127,14 @@ export default class GameScene extends Phaser.Scene {
     if (this.nicki.shieldActive && time >= this.nicki.shieldEndTime) {
       this.nicki.shieldActive = false;
       this.nicki.setTexture("nicki");
+      this.nicki.setDisplaySize(
+        this.scale.width * 0.12,
+        this.scale.height * 0.24
+      );
+      this.nicki.body.setSize(this.scale.width, this.scale.height);
     }
 
-    this.spawnEntities(time);
+    this.spawnEntities();
 
     this.scoreText.setText(`Score: ${scoreManager.score}`);
     this.levelText.setText(`Level: ${levelManager.level + 1}`);
@@ -133,13 +145,13 @@ export default class GameScene extends Phaser.Scene {
     }
   }
 
-  spawnEntities(time) {
+  spawnEntities() {
     const { dollarManager, cardiManager, anacondaManager, heelManager } =
       this.spawnManagers;
 
     if (
       dollarManager.shouldSpawn(
-        time,
+        0,
         levelManager.level,
         this.activeEntities.dollars.length
       )
@@ -155,6 +167,7 @@ export default class GameScene extends Phaser.Scene {
         -50,
         dollarKey
       );
+      entity.setScale(0.8);
       entity.speed = Phaser.Math.Between(150, 250);
       entity.type = "dollar";
       this.entities.add(entity);
@@ -163,7 +176,7 @@ export default class GameScene extends Phaser.Scene {
 
     if (
       cardiManager.shouldSpawn(
-        time,
+        1,
         levelManager.level,
         this.activeEntities.cardis.length
       )
@@ -179,6 +192,7 @@ export default class GameScene extends Phaser.Scene {
         -50,
         cardiKey
       );
+      entity.setScale(0.8);
       entity.speed = Phaser.Math.Between(120, 200);
       entity.type = "cardi";
       this.entities.add(entity);
@@ -186,9 +200,8 @@ export default class GameScene extends Phaser.Scene {
     }
 
     if (
-      levelManager.level > 1 &&
       anacondaManager.shouldSpawn(
-        time,
+        2,
         levelManager.level,
         this.activeEntities.anacondas.length
       )
@@ -198,6 +211,7 @@ export default class GameScene extends Phaser.Scene {
         -50,
         "anaconda"
       );
+      entity.setScale(0.65);
       entity.speed = Phaser.Math.Between(180, 250);
       entity.type = "anaconda";
       this.entities.add(entity);
@@ -205,9 +219,8 @@ export default class GameScene extends Phaser.Scene {
     }
 
     if (
-      levelManager.level > 2 &&
       heelManager.shouldSpawn(
-        time,
+        3,
         levelManager.level,
         this.activeEntities.heels.length
       )
@@ -217,15 +230,15 @@ export default class GameScene extends Phaser.Scene {
         -50,
         "heel"
       );
+      entity.setScale(0.7);
       entity.speed = Phaser.Math.Between(150, 200);
       entity.type = "heel";
       this.entities.add(entity);
       this.activeEntities.heels.push(entity);
     }
 
-    // Move them
     this.entities.children.iterate((entity) => {
-      if (!entity) return; // <-- skip undefined
+      if (!entity) return;
 
       entity.y += (entity.speed / 1000) * 16;
 
@@ -246,6 +259,8 @@ export default class GameScene extends Phaser.Scene {
           if (index > -1) this.activeEntities.heels.splice(index, 1);
         }
       }
+
+      console.log(this.activeEntities);
     });
   }
 
@@ -292,11 +307,14 @@ export default class GameScene extends Phaser.Scene {
     } else if (entity.type === "anaconda") {
       scoreManager.addPoints(1000);
       playRandomCollect();
+      this.activeEntities.anacondas = this.activeEntities.anacondas.filter(
+        (e) => e !== entity
+      );
       entity.destroy();
       const index = this.activeEntities.anacondas.indexOf(entity);
       if (index > -1) this.activeEntities.anacondas.splice(index, 1);
     } else if (entity.type === "heel") {
-      this.activateShield(7000); // 7 seconds
+      this.activateShield(7000);
       playRandomCollect();
       entity.destroy();
       const index = this.activeEntities.heels.indexOf(entity);
@@ -305,17 +323,23 @@ export default class GameScene extends Phaser.Scene {
   }
 
   activateShield(duration) {
+    const { width, height } = this.scale;
     this.nicki.shieldActive = true;
     this.nicki.shieldEndTime = this.time.now + duration;
     this.nicki.setTexture("nicki_shield");
+    this.nicki.setDisplaySize(width * 0.15, height * 0.3);
+    this.nicki.body.setSize(width, height);
   }
 
   drawHealth() {
-    const { width, height } = this.scale;
     this.healthIcons.forEach((icon) => icon.destroy());
     this.healthIcons = [];
     for (let i = 0; i < healthManager.health; i++) {
-      const heart = this.add.image(width - 350 + i * 50, 40, "health");
+      const heart = this.add.image(
+        this.scale.width - 350 + i * 50,
+        40,
+        "health"
+      );
       heart.setDisplaySize(40, 35);
       this.healthIcons.push(heart);
     }

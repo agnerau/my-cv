@@ -22,7 +22,7 @@ export default class Nicki extends Entity {
     });
   }
 
-  update(time, delta, speedMultiplier = 1, remainingTime = 10000) {
+  update(time, delta, speedMultiplier = 1.2, remainingTime = 10000) {
     const velocity = this.speed * speedMultiplier;
     this.body.setVelocity(0);
 
@@ -31,14 +31,12 @@ export default class Nicki extends Entity {
     if (this.cursors.left.isDown) this.body.setVelocityX(-velocity);
     if (this.cursors.right.isDown) this.body.setVelocityX(velocity);
 
-    // Update shield
     this.shieldSprite.setPosition(this.x, this.y);
     if (this.shieldActive && this.scene.time.now > this.shieldEndTime) {
       this.shieldActive = false;
       this.shieldSprite.setVisible(false);
     }
 
-    // Level complete condition
     if (remainingTime <= 0) {
       this.scene.scene.start("NextLevelScene");
     }

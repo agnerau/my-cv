@@ -21,9 +21,9 @@ export default class SpawnManager {
     return Math.max(this.minDelay, delay);
   }
 
-  shouldSpawn(currentTime, level = 0, activeCount = 0) {
+  shouldSpawn(spawnLevel, level = 0, activeCount = 0) {
     if (this.maxActive && activeCount >= this.maxActive) return false;
-    return currentTime - this.lastSpawnTime >= this.getDelay(level);
+    return level >= spawnLevel;
   }
 
   spawn() {
