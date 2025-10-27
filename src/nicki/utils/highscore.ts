@@ -3,21 +3,17 @@ export interface HighscoreEntry {
   score: number;
 }
 
-const STORAGE_KEY = "barbz_highscores";
-
-export function loadHighscores(): HighscoreEntry[] {
-  const data = localStorage.getItem(STORAGE_KEY);
-  if (!data) return [];
-  try {
-    return JSON.parse(data);
-  } catch {
-    return [];
-  }
+export async function saveHighscores(scores: HighscoreEntry[]) {
+  await fetch("/api/highscores", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(scores),
+  });
 }
 
-export function saveHighscores(scores: HighscoreEntry[]) {
-  const sorted = [...scores].sort((a, b) => b.score - a.score).slice(0, 10);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(sorted));
+export async function loadHighscores(): Promise<HighscoreEntry[]> {
+  const res = await fetch("/api/highscores");
+  return res.json();
 }
 
 export async function enterName(): Promise<string> {

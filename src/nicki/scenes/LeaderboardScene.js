@@ -8,7 +8,6 @@ export default class LeaderboardScene extends Phaser.Scene {
   }
 
   init(data) {
-    this.highscores = data?.highscores || loadHighscores();
     this.highlight = data?.highlightEntry || null;
   }
 
@@ -26,43 +25,35 @@ export default class LeaderboardScene extends Phaser.Scene {
 
     const startY = 140;
     const lineHeight = 48;
+    const doAsync = async () => {
+      this.highscores = await loadHighscores();
+      console.log(this.highscores, this.highlight);
+      this.highscores.forEach((entry, index) => {
+        const isHighlighted =
+          this.highlight &&
+          entry.name === this.highlight.name &&
+          entry.score === this.highlight.score;
 
-    this.highscores.forEach((entry, index) => {
-      const isHighlighted =
-        this.highlight &&
-        entry.name === this.highlight.name &&
-        entry.score === this.highlight.score;
+        const color = isHighlighted ? COLORS.PINK : COLORS.WHITE;
 
-      const color = isHighlighted ? COLORS.PINK : COLORS.WHITE;
+        this.add
+          .text(
+            width / 2,
+            startY + index * lineHeight,
+            `${index + 1}. ${entry.name} - ${entry.score}`,
+            {
+              fontFamily: "Impact, sans-serif",
+              fontSize: "32px",
+              color,
+            }
+          )
+          .setOrigin(0.5);
+      });
 
-      this.add
-        .text(
-          width / 2,
-          startY + index * lineHeight,
-          `${index + 1}. ${entry.name} - ${entry.score}`,
-          {
-            fontFamily: "Impact, sans-serif",
-            fontSize: "32px",
-            color,
-          }
-        )
-        .setOrigin(0.5);
-    });
-
-    const info = this.add.text(
-      width / 2,
-      height - 80,
-      "Press Enter to play again",
-      {
-        fontFamily: "Impact, sans-serif",
-        fontSize: "24px",
-        color: COLORS.WHITE,
-      }
-    );
-    info.setOrigin(0.5);
-
-    this.input.keyboard.once("keydown-ENTER", () => {
-      this.scene.start("StartScene");
-    });
+      this.input.keyboard.once("keydown-ENTER", () => {
+        this.scene.start("StartScene");
+      });
+    };
+    doAsync();
   }
 }

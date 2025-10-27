@@ -12,13 +12,17 @@ export default class EnterNameScene extends Phaser.Scene {
   create() {
     scoreManager.saveScore();
     levelManager.reset();
-    const highscores = loadHighscores();
 
-    const isHighscore =
-      highscores.length < 10 ||
-      scoreManager.highScore > highscores[highscores.length - 1]?.score;
+    const doAsync = async () => {
+      const highscores = await loadHighscores();
 
-    this.startNameEntry(highscores, isHighscore);
+      const isHighscore =
+        highscores.length < 10 ||
+        scoreManager.highScore > highscores[highscores.length - 1]?.score;
+
+      this.startNameEntry(highscores, isHighscore);
+    };
+    doAsync();
   }
 
   startNameEntry(highscores, isHighscore) {
@@ -58,7 +62,10 @@ export default class EnterNameScene extends Phaser.Scene {
           highscores.push(newEntry);
           highscores.sort((a, b) => b.score - a.score);
           const top10 = highscores.slice(0, 10);
-          saveHighscores(top10);
+          const doAsync = async () => {
+            await saveHighscores(top10);
+          };
+          doAsync();
 
           scoreManager.resetAll();
           this.scene.start("LeaderboardScene", {
