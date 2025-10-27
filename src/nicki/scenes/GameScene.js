@@ -91,7 +91,7 @@ export default class GameScene extends Phaser.Scene {
       fontSize: 28,
       color: "#fff",
     });
-    this.timerText = this.add.text(WINDOW_WIDTH - 140, 20, "00:15", {
+    this.timerText = this.add.text(width - 140, 20, "00:15", {
       fontFamily: "Impact",
       fontSize: 28,
       color: "#fff",
@@ -311,10 +311,11 @@ export default class GameScene extends Phaser.Scene {
   }
 
   drawHealth() {
+    const { width, height } = this.scale;
     this.healthIcons.forEach((icon) => icon.destroy());
     this.healthIcons = [];
     for (let i = 0; i < healthManager.health; i++) {
-      const heart = this.add.image(WINDOW_WIDTH - 250 + i * 50, 40, "health");
+      const heart = this.add.image(width - 350 + i * 50, 40, "health");
       heart.setDisplaySize(40, 35);
       this.healthIcons.push(heart);
     }

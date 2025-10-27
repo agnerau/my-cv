@@ -16,11 +16,11 @@ export default class StartScene extends Phaser.Scene {
 
     this.startImage = this.add
       .image(width / 2, height / 2, "start")
-      .setDisplaySize(width * 0.75, height * 0.75);
+      .setDisplaySize(width * 0.9, height * 0.9);
 
     this.rulesImage = this.add
       .image(width / 2, height / 2, "rules")
-      .setDisplaySize(width * 0.75, height * 0.75)
+      .setDisplaySize(width * 0.9, height * 0.9)
       .setVisible(false);
 
     this.input.keyboard.on("keydown", (event) => {

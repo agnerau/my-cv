@@ -17,9 +17,9 @@ export default class NextLevelScene extends Phaser.Scene {
 
     const { width, height } = this.scale;
     const nextImg = this.add.image(width / 2, height / 2, "next");
-    nextImg.setDisplaySize(width * 0.75, height * 0.75);
+    nextImg.setDisplaySize(width * 0.9, height * 0.9);
 
-    this.input.keyboard.once("keydown", () => {
+    this.time.delayedCall(2000, () => {
       const currentMusic = this.sound.get("superbass");
       if (currentMusic) pause.pauseup(Math.floor(currentMusic.seek));
       this.scene.start("GameScene");
