@@ -1,6 +1,12 @@
-export default class Entity extends Phaser.Physics.Arcade.Sprite {
+export default class Entity {
   constructor(scene, x, y, texture) {
-    super(scene, x, y, texture);
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const Phaser = require("phaser");
+
+    const sprite = new Phaser.Physics.Arcade.Sprite(scene, x, y, texture);
+
+    Object.assign(this, sprite);
+
     this.scene = scene;
     this.speed = 1;
 
