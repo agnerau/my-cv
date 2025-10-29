@@ -40,6 +40,11 @@ export default class GameScene extends Phaser.Scene {
     this.load.audio("collect4", "/nicki_assets/sound/mhein.wav");
     this.load.audio("collect5", "/nicki_assets/sound/mmm.wav");
     this.load.audio("collect6", "/nicki_assets/sound/kyehh.wav");
+
+    this.load.image("pause_btn", "/nicki_assets/img/pause.png");
+    this.load.image("play_btn", "/nicki_assets/img/play.png");
+    this.load.image("sound_on", "/nicki_assets/img/sound_on.png");
+    this.load.image("sound_off", "/nicki_assets/img/sound_off.png");
   }
 
   create() {
@@ -61,11 +66,13 @@ export default class GameScene extends Phaser.Scene {
     this.timeLimit = 10000;
     this.remainingTime = this.timeLimit;
 
-    this.timerText = this.add.text(width - 140, 20, "00:10", {
-      fontFamily: "Impact",
-      fontSize: 28,
-      color: COLORS.WHITE,
-    });
+    this.timerText = this.add
+      .text(width - 140, 20, "00:10", {
+        fontFamily: "Impact",
+        fontSize: 28,
+        color: COLORS.WHITE,
+      })
+      .setDepth(10);
 
     this.timerEvent = this.time.addEvent({
       delay: 1000,
@@ -82,11 +89,6 @@ export default class GameScene extends Phaser.Scene {
       callbackScope: this,
       loop: true,
     });
-
-    //PAUSE:
-    // this.timerEvent.paused = true;  // pause
-    // this.timerEvent.paused = false; // resume
-    // this.timerEvent.remove();
 
     this.activeEntities = {
       dollars: [],
@@ -122,17 +124,51 @@ export default class GameScene extends Phaser.Scene {
       color: COLORS.WHITE,
     });
 
-    this.levelText = this.add.text(250, 20, "Level: 1", {
+    this.levelText = this.add.text(280, 20, "Level: 1", {
       fontFamily: "Impact",
       fontSize: 28,
       color: COLORS.WHITE,
     });
+
+    this.isPaused = false;
+
+    this.pauseButton = this.add
+      .image(this.scale.width - 150, 450, "pause_btn")
+      .setInteractive()
+      .setScale(0.35)
+      .setScrollFactor(0)
+      .setDepth(10);
+
+    this.pauseButton.on("pointerdown", () => {
+      this.togglePause();
+    });
+
+    this.muteButton = this.add
+      .image(this.scale.width - 70, 450, "sound_on")
+      .setInteractive()
+      .setScale(0.35)
+      .setScrollFactor(0)
+      .setDepth(10);
+
+    this.muteButton.on("pointerdown", () => {
+      this.toggleMute();
+    });
+
+    this.pauseButton.on("pointerover", () => this.pauseButton.setScale(0.4));
+    this.pauseButton.on("pointerout", () => this.pauseButton.setScale(0.35));
+    this.muteButton.on("pointerover", () => this.muteButton.setScale(0.4));
+    this.muteButton.on("pointerout", () => this.muteButton.setScale(0.35));
+
+    this.input.keyboard.on("keydown-M", () => this.toggleMute());
+    this.input.keyboard.on("keydown-P", () => this.togglePause());
 
     this.healthIcons = [];
     this.drawHealth();
   }
 
   update(time, delta) {
+    if (this.isPaused) return;
+
     const velocity = this.nicki.speed;
     if (this.cursors.left.isDown) this.nicki.x -= velocity;
     if (this.cursors.right.isDown) this.nicki.x += velocity;
@@ -192,6 +228,7 @@ export default class GameScene extends Phaser.Scene {
       entity.type = "dollar";
       this.entities.add(entity);
       this.activeEntities.dollars.push(entity);
+      dollarManager.spawn();
     }
 
     if (
@@ -220,6 +257,7 @@ export default class GameScene extends Phaser.Scene {
       entity.type = "cardi";
       this.entities.add(entity);
       this.activeEntities.cardis.push(entity);
+      cardiManager.spawn();
     }
 
     if (
@@ -242,6 +280,7 @@ export default class GameScene extends Phaser.Scene {
       entity.type = "anaconda";
       this.entities.add(entity);
       this.activeEntities.anacondas.push(entity);
+      anacondaManager.spawn();
     }
 
     if (
@@ -264,6 +303,7 @@ export default class GameScene extends Phaser.Scene {
       entity.type = "heel";
       this.entities.add(entity);
       this.activeEntities.heels.push(entity);
+      heelManager.spawn();
     }
 
     this.entities.children.iterate((entity) => {
@@ -378,5 +418,25 @@ export default class GameScene extends Phaser.Scene {
     return `${mins.toString().padStart(2, "0")}:${secs
       .toString()
       .padStart(2, "0")}`;
+  }
+
+  togglePause() {
+    this.isPaused = !this.isPaused;
+
+    if (this.isPaused) {
+      this.music.pause();
+    } else {
+      this.music.resume();
+    }
+
+    this.physics.world.isPaused = this.isPaused;
+    this.timerEvent.paused = this.isPaused;
+
+    this.pauseButton.setTexture(this.isPaused ? "play_btn" : "pause_btn");
+  }
+
+  toggleMute() {
+    this.sound.mute = !this.sound.mute;
+    this.muteButton.setTexture(this.sound.mute ? "sound_on" : "sound_off");
   }
 }
