@@ -22,12 +22,19 @@ export default class SpawnManager {
   }
 
   shouldSpawn(spawnLevel, level = 0, activeCount = 0) {
+    if (level < spawnLevel) return false;
+
+    const now = this.scene.time.now;
+    const delay = this.getDelay(level);
+    if (now - this.lastSpawnTime < delay) return false;
+
     if (this.maxActive && activeCount >= this.maxActive) return false;
-    return level >= spawnLevel;
+
+    return true;
   }
 
   spawn() {
     this.lastSpawnTime = this.scene.time.now;
-    return this.spawnFn();
+    // return this.spawnFn();
   }
 }

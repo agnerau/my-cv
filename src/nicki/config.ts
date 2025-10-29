@@ -65,7 +65,7 @@ export function createSpawnManagers(scene: Phaser.Scene) {
   const heelManager = new SpawnManager(
     scene,
     () => new Heel(scene, ASSETS.heel),
-    10000,
+    9000,
     { jitter: 800, scaleWithLevel: false, minDelay: 9000, maxActive: 1 }
   );
 
