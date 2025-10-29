@@ -41,6 +41,7 @@ export default class StartScene extends Phaser.Scene {
   }
 
   create() {
+    this.showRules = false;
     const { width, height } = this.scale;
 
     this.startImage = this.add
@@ -57,8 +58,13 @@ export default class StartScene extends Phaser.Scene {
       .setDisplaySize(width, height)
       .setVisible(false);
 
-    this.input.keyboard.on("keydown-R", () => {
+    this.input.keyboard.once("keydown-R", () => {
       if (!this.showRules) this.showRulesScreen();
+    });
+
+    this.events.on("shutdown", () => {
+      this.input.keyboard.removeAllListeners();
+      this.input.removeAllListeners();
     });
   }
 
