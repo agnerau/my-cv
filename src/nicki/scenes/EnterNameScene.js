@@ -1,5 +1,5 @@
 import { scoreManager, levelManager } from "../config";
-import { loadHighscores, saveHighscores } from "../utils/highscore";
+import { loadHighscores, saveHighscore } from "../utils/highscore";
 import { COLORS } from "../config";
 
 export default class EnterNameScene extends Phaser.Scene {
@@ -28,10 +28,7 @@ export default class EnterNameScene extends Phaser.Scene {
   startNameEntry(highscores, isHighscore) {
     this.namePromptShown = true;
 
-    this.cameras.main.fadeOut(500, 0, 0, 0);
-
     this.time.delayedCall(600, () => {
-      this.cameras.main.fadeIn(500, 0, 0, 0);
       this.showNamePrompt(highscores, isHighscore);
     });
   }
@@ -59,17 +56,16 @@ export default class EnterNameScene extends Phaser.Scene {
           const name = this.enteredName || "Barb";
           const newEntry = { name, score: scoreManager.highScore };
 
-          highscores.push(newEntry);
-          highscores.sort((a, b) => b.score - a.score);
-          const top10 = highscores.slice(0, 10);
+          let newTop10 = [];
           const doAsync = async () => {
-            await saveHighscores(top10);
+            await saveHighscore(newEntry);
+            newTop10 = await loadHighscores();
           };
           doAsync();
 
           scoreManager.resetAll();
           this.scene.start("LeaderboardScene", {
-            highscores: top10,
+            highscores: newTop10,
             highlightEntry: newEntry,
           });
         } else if (event.key.length === 1 && this.enteredName.length < 10) {

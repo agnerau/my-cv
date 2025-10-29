@@ -3,11 +3,11 @@ export interface HighscoreEntry {
   score: number;
 }
 
-export async function saveHighscores(scores: HighscoreEntry[]) {
+export async function saveHighscore(score: HighscoreEntry) {
   await fetch("/api/highscores", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(scores),
+    body: JSON.stringify(score),
   });
 }
 
