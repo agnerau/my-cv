@@ -118,17 +118,21 @@ export default class GameScene extends Phaser.Scene {
       this
     );
 
-    this.highscoreText = this.add.text(20, 20, "Score: 0", {
-      fontFamily: "Impact",
-      fontSize: 28,
-      color: COLORS.WHITE,
-    });
+    this.highscoreText = this.add
+      .text(20, 20, "Score: 0", {
+        fontFamily: "Impact",
+        fontSize: 28,
+        color: COLORS.WHITE,
+      })
+      .setDepth(10);
 
-    this.levelText = this.add.text(280, 20, "Level: 1", {
-      fontFamily: "Impact",
-      fontSize: 28,
-      color: COLORS.WHITE,
-    });
+    this.levelText = this.add
+      .text(280, 20, "Level: 1", {
+        fontFamily: "Impact",
+        fontSize: 28,
+        color: COLORS.WHITE,
+      })
+      .setDepth(10);
 
     this.isPaused = false;
 
@@ -402,11 +406,9 @@ export default class GameScene extends Phaser.Scene {
     this.healthIcons.forEach((icon) => icon.destroy());
     this.healthIcons = [];
     for (let i = 0; i < healthManager.health; i++) {
-      const heart = this.add.image(
-        this.scale.width - 350 + i * 50,
-        40,
-        "health"
-      );
+      const heart = this.add
+        .image(this.scale.width - 350 + i * 50, 40, "health")
+        .setDepth(10);
       heart.setDisplaySize(40, 35);
       this.healthIcons.push(heart);
     }

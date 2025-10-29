@@ -5,11 +5,10 @@ import { COLORS } from "./config";
 
 export default function Game() {
   const gameContainerRef = useRef<HTMLDivElement>(null);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let game: any;
+  let game: Phaser.Game | null = null;
 
   useEffect(() => {
-    const loadPhaser = async () => {
+    const initPhaser = async () => {
       const Phaser = (await import("phaser")).default;
 
       const StartScene = (await import("../nicki/scenes/StartScene")).default;
@@ -24,16 +23,21 @@ export default function Game() {
         await import("../nicki/scenes/LeaderboardScene")
       ).default;
 
-      const config = {
+      if (!gameContainerRef.current) return;
+      if (gameContainerRef.current.querySelector("canvas")) return;
+
+      const { clientWidth, clientHeight } = gameContainerRef.current;
+
+      const config: Phaser.Types.Core.GameConfig = {
         type: Phaser.AUTO,
-        width: 800,
-        height: 500,
+        parent: gameContainerRef.current,
+        width: clientWidth,
+        height: clientHeight,
         scale: {
           mode: Phaser.Scale.RESIZE,
           autoCenter: Phaser.Scale.CENTER_BOTH,
         },
-
-        parent: gameContainerRef.current,
+        backgroundColor: COLORS.BLACK,
         scene: [
           StartScene,
           GameScene,
@@ -42,19 +46,36 @@ export default function Game() {
           NextLevelScene,
           LeaderboardScene,
         ],
-        physics: { default: "arcade" },
-        backgroundColor: COLORS.BLACK,
+        physics: { default: "arcade", arcade: { debug: false } },
       };
 
       game = new Phaser.Game(config);
     };
 
-    loadPhaser();
+    initPhaser();
+
+    const handleResize = () => {
+      if (!gameContainerRef.current || !game) return;
+      const width = gameContainerRef.current.clientWidth;
+      const height = gameContainerRef.current.clientHeight;
+      game.scale.resize(width, height);
+    };
+
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      if (game) game.destroy(true);
+      if (game) {
+        game.destroy(true);
+        game = null;
+      }
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
-  return <div ref={gameContainerRef} className="w-full h-full" />;
+  return (
+    <div
+      ref={gameContainerRef}
+      className="w-full h-full flex items-center justify-center overflow-hidden"
+    />
+  );
 }

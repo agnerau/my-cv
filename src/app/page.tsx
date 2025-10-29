@@ -1,11 +1,7 @@
 import CircularText from "./components/CircularText";
 import DecryptedText from "./components/DecryptedText";
 
-import dynamic from "next/dynamic";
-
-const NickiGame = dynamic(() => import("../nicki/Game"), {
-  ssr: false,
-});
+import NickiGameWrapper from "./NickiGameWrapper";
 
 export default function Home() {
   return (
@@ -46,7 +42,7 @@ export default function Home() {
         <h2 className="text-3xl font-bold text-center mb-8">PROJECTS</h2>
 
         <div className="w-full max-w-4xl h-[500px] border border-gray-300 rounded shadow-lg bg-white flex items-center justify-center">
-          <NickiGame />
+          <NickiGameWrapper />
         </div>
 
         <div className="w-full max-w-4xl h-[500px] border border-gray-300 rounded shadow-lg bg-white flex items-center justify-center">
