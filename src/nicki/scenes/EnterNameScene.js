@@ -1,4 +1,3 @@
-import * as Phaser from "phaser";
 import { scoreManager, levelManager } from "../config";
 import { loadHighscores, saveHighscores } from "../utils/highscore";
 import { COLORS } from "../config";

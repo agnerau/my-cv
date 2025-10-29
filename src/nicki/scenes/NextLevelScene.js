@@ -1,4 +1,3 @@
-import * as Phaser from "phaser";
 import { levelManager, scoreManager } from "../config";
 
 export default class NextLevelScene extends Phaser.Scene {

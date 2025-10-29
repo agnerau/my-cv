@@ -1,4 +1,3 @@
-import * as Phaser from "phaser";
 import { createSpawnManagers, WINDOW_WIDTH, WINDOW_HEIGHT } from "../config";
 import { scoreManager, healthManager, levelManager, COLORS } from "../config";
 
