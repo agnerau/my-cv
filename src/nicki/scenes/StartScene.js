@@ -23,26 +23,19 @@ export default class StartScene extends Phaser.Scene {
       .setDisplaySize(width, height)
       .setVisible(false);
 
-    this.input.keyboard.on("keydown", (event) => {
-      if (event.key === "Escape") {
-        this.game.destroy(true);
-      } else if (!this.showRules) {
-        this.showRules = true;
-        this.startImage.setVisible(false);
-        this.rulesImage.setVisible(true);
-      } else {
-        this.scene.start("GameScene");
-      }
+    this.input.keyboard.on("keydown-R", () => {
+      if (!this.showRules) this.showRulesScreen();
     });
+  }
 
-    this.input.on("pointerdown", () => {
-      if (!this.showRules) {
-        this.showRules = true;
-        this.startImage.setVisible(false);
-        this.rulesImage.setVisible(true);
-      } else {
-        this.scene.start("GameScene");
-      }
+  showRulesScreen() {
+    this.showRules = true;
+    this.startImage.setVisible(false);
+    this.rulesImage.setVisible(true);
+
+    this.time.delayedCall(50, () => {
+      this.input.keyboard.once("keydown", () => this.scene.start("GameScene"));
+      this.input.once("pointerdown", () => this.scene.start("GameScene"));
     });
   }
 }
