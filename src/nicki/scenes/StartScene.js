@@ -9,6 +9,7 @@ export default class StartScene extends Phaser.Scene {
   preload() {
     this.load.image("start", "/nicki_assets/img/start.png");
     this.load.image("rules", "/nicki_assets/img/rules.png");
+    this.load.image("controls", "/nicki_assets/img/controls.png");
   }
 
   create() {
@@ -23,6 +24,11 @@ export default class StartScene extends Phaser.Scene {
       .setDisplaySize(width, height)
       .setVisible(false);
 
+    this.controlsImage = this.add
+      .image(width / 2, height / 2, "controls")
+      .setDisplaySize(width, height)
+      .setVisible(false);
+
     this.input.keyboard.on("keydown-R", () => {
       if (!this.showRules) this.showRulesScreen();
     });
@@ -32,7 +38,15 @@ export default class StartScene extends Phaser.Scene {
     this.showRules = true;
     this.startImage.setVisible(false);
     this.rulesImage.setVisible(true);
+    this.time.delayedCall(50, () => {
+      this.input.keyboard.once("keydown", () => this.showControls());
+      this.input.once("pointerdown", () => this.showControls());
+    });
+  }
 
+  showControls() {
+    this.rulesImage.setVisible(false);
+    this.controlsImage.setVisible(true);
     this.time.delayedCall(50, () => {
       this.input.keyboard.once("keydown", () => this.scene.start("GameScene"));
       this.input.once("pointerdown", () => this.scene.start("GameScene"));
