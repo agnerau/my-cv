@@ -8,7 +8,7 @@ export default class Entity extends Phaser.Physics.Arcade.Sprite {
     scene.physics.add.existing(this);
   }
 
-  update(multiplier = 1) {
+  update(multiplier = 1.15) {
     this.y += this.speed * multiplier;
   }
 }
