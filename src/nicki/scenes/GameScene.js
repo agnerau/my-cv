@@ -58,8 +58,29 @@ export default class GameScene extends Phaser.Scene {
       this.musicStarted = true;
     }
 
-    this.startTime = this.time.now;
-    this.timeLimit = 15000;
+    this.timeLimit = 10000;
+    this.remainingTime = this.timeLimit;
+
+    this.timerEvent = this.time.addEvent({
+      delay: 1000,
+      callback: () => {
+        this.remainingTime -= 1000;
+        const seconds = Math.ceil(this.remainingTime / 1000);
+        this.timerText.setText(this.formatTime(seconds));
+
+        if (this.remainingTime <= 0) {
+          this.clearEntities();
+          this.scene.start("NextLevelScene");
+        }
+      },
+      callbackScope: this,
+      loop: true,
+    });
+
+    //PAUSE:
+    // this.timerEvent.paused = true;  // pause
+    // this.timerEvent.paused = false; // resume
+    // this.timerEvent.remove();
 
     this.activeEntities = {
       dollars: [],
@@ -109,16 +130,6 @@ export default class GameScene extends Phaser.Scene {
   }
 
   update(time, delta) {
-    const elapsed = time - this.startTime;
-    const remaining = Math.max(this.timeLimit - elapsed, 0);
-    const seconds = Math.ceil(remaining / 1000);
-    this.timerText.setText(this.formatTime(seconds));
-
-    if (remaining <= 0) {
-      this.clearEntities();
-      this.scene.start("NextLevelScene");
-    }
-
     const velocity = this.nicki.speed * (delta / 1000);
     if (this.cursors.left.isDown) this.nicki.x -= velocity;
     if (this.cursors.right.isDown) this.nicki.x += velocity;
