@@ -147,7 +147,11 @@ export default class GameScene extends Phaser.Scene {
     });
 
     this.muteButton = this.add
-      .image(this.scale.width - 70, 450, "sound_on")
+      .image(
+        this.scale.width - 70,
+        450,
+        this.sound.mute ? "sound_off" : "sound_on"
+      )
       .setInteractive()
       .setScale(0.35)
       .setScrollFactor(0)
