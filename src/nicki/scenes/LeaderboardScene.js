@@ -23,7 +23,7 @@ export default class LeaderboardScene extends Phaser.Scene {
     });
     title.setOrigin(0.5);
 
-    const startY = 140;
+    const startY = 130;
     const lineHeight = 36;
     const doAsync = async () => {
       this.highscores = await loadHighscores();

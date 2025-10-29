@@ -1,6 +1,6 @@
 import * as Phaser from "phaser";
 import { createSpawnManagers, WINDOW_WIDTH, WINDOW_HEIGHT } from "../config";
-import { scoreManager, healthManager, levelManager } from "../config";
+import { scoreManager, healthManager, levelManager, COLORS } from "../config";
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -87,20 +87,22 @@ export default class GameScene extends Phaser.Scene {
       this
     );
 
-    this.scoreText = this.add.text(20, 20, "Score: 0", {
+    this.highscoreText = this.add.text(20, 20, "Score: 0", {
       fontFamily: "Impact",
       fontSize: 28,
-      color: "#fff",
+      color: COLORS.WHITE,
     });
+
     this.levelText = this.add.text(250, 20, "Level: 1", {
       fontFamily: "Impact",
       fontSize: 28,
-      color: "#fff",
+      color: COLORS.WHITE,
     });
+
     this.timerText = this.add.text(width - 140, 20, "00:15", {
       fontFamily: "Impact",
       fontSize: 28,
-      color: "#fff",
+      color: COLORS.WHITE,
     });
     this.healthIcons = [];
     this.drawHealth();
@@ -135,7 +137,9 @@ export default class GameScene extends Phaser.Scene {
 
     this.spawnEntities();
 
-    this.scoreText.setText(`Score: ${scoreManager.score}`);
+    this.highscoreText.setText(
+      `Score: ${scoreManager.score + scoreManager.highScore}`
+    );
     this.levelText.setText(`Level: ${levelManager.level + 1}`);
 
     if (healthManager.health <= 0) {

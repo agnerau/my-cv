@@ -49,7 +49,7 @@ export default class EnterNameScene extends Phaser.Scene {
         .text(width / 2, height / 2, "Enter your name: ", {
           fontFamily: "Impact",
           fontSize: 32,
-          color: COLORS.PINK,
+          color: COLORS.WHITE,
         })
         .setOrigin(0.5);
 
