@@ -61,6 +61,12 @@ export default class GameScene extends Phaser.Scene {
     this.timeLimit = 10000;
     this.remainingTime = this.timeLimit;
 
+    this.timerText = this.add.text(width - 140, 20, "00:10", {
+      fontFamily: "Impact",
+      fontSize: 28,
+      color: COLORS.WHITE,
+    });
+
     this.timerEvent = this.time.addEvent({
       delay: 1000,
       callback: () => {
@@ -92,9 +98,11 @@ export default class GameScene extends Phaser.Scene {
     this.nicki = this.physics.add.sprite(width / 2, height / 2, "nicki");
     this.nicki.setDisplaySize(width * 0.12, height * 0.24);
     this.nicki.setCollideWorldBounds(true);
-    this.nicki.speed = 300;
+    this.nicki.baseSpeed = 5;
+    this.nicki.speed = this.nicki.baseSpeed * (1 + levelManager.level * 0.2);
     this.nicki.shieldActive = false;
     this.nicki.shieldEndTime = 0;
+    // this.nicki = new Nicki(this);
 
     this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -120,17 +128,12 @@ export default class GameScene extends Phaser.Scene {
       color: COLORS.WHITE,
     });
 
-    this.timerText = this.add.text(width - 140, 20, "00:15", {
-      fontFamily: "Impact",
-      fontSize: 28,
-      color: COLORS.WHITE,
-    });
     this.healthIcons = [];
     this.drawHealth();
   }
 
   update(time, delta) {
-    const velocity = this.nicki.speed * (delta / 1000);
+    const velocity = this.nicki.speed;
     if (this.cursors.left.isDown) this.nicki.x -= velocity;
     if (this.cursors.right.isDown) this.nicki.x += velocity;
     if (this.cursors.up.isDown) this.nicki.y -= velocity;
@@ -182,7 +185,10 @@ export default class GameScene extends Phaser.Scene {
         dollarKey
       );
       entity.setScale(0.8);
-      entity.speed = Phaser.Math.Between(150, 250);
+      entity.speed = Phaser.Math.Between(
+        150 * (1 + levelManager.level * 0.1),
+        250 * (1 + levelManager.level * 0.1)
+      );
       entity.type = "dollar";
       this.entities.add(entity);
       this.activeEntities.dollars.push(entity);
@@ -207,7 +213,10 @@ export default class GameScene extends Phaser.Scene {
         cardiKey
       );
       entity.setScale(0.8);
-      entity.speed = Phaser.Math.Between(120, 200);
+      entity.speed = Phaser.Math.Between(
+        120 * (1 + levelManager.level * 0.1),
+        200 * (1 + levelManager.level * 0.1)
+      );
       entity.type = "cardi";
       this.entities.add(entity);
       this.activeEntities.cardis.push(entity);
@@ -226,7 +235,10 @@ export default class GameScene extends Phaser.Scene {
         "anaconda"
       );
       entity.setScale(0.65);
-      entity.speed = Phaser.Math.Between(180, 250);
+      entity.speed = Phaser.Math.Between(
+        180 * (1 + levelManager.level * 0.1),
+        350 * (1 + levelManager.level * 0.1)
+      );
       entity.type = "anaconda";
       this.entities.add(entity);
       this.activeEntities.anacondas.push(entity);
@@ -245,7 +257,10 @@ export default class GameScene extends Phaser.Scene {
         "heel"
       );
       entity.setScale(0.7);
-      entity.speed = Phaser.Math.Between(150, 200);
+      entity.speed = Phaser.Math.Between(
+        250 * (1 + levelManager.level * 0.1),
+        400 * (1 + levelManager.level * 0.1)
+      );
       entity.type = "heel";
       this.entities.add(entity);
       this.activeEntities.heels.push(entity);
@@ -273,8 +288,6 @@ export default class GameScene extends Phaser.Scene {
           if (index > -1) this.activeEntities.heels.splice(index, 1);
         }
       }
-
-      console.log(this.activeEntities);
     });
   }
 
