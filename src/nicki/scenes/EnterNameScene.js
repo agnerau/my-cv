@@ -1,6 +1,7 @@
 import * as Phaser from "phaser";
 import { scoreManager, levelManager } from "../config";
 import { loadHighscores, saveHighscores } from "../utils/highscore";
+import { COLORS } from "../config";
 
 export default class EnterNameScene extends Phaser.Scene {
   constructor() {
@@ -38,7 +39,7 @@ export default class EnterNameScene extends Phaser.Scene {
 
   showNamePrompt(highscores, isHighscore) {
     const { width, height } = this.scale;
-    this.cameras.main.setBackgroundColor("#000000");
+    this.cameras.main.setBackgroundColor(COLORS.BLACK);
 
     if (isHighscore) {
       this.input.keyboard.enabled = true;
@@ -48,7 +49,7 @@ export default class EnterNameScene extends Phaser.Scene {
         .text(width / 2, height / 2, "Enter your name: ", {
           fontFamily: "Impact",
           fontSize: 32,
-          color: "#fff",
+          color: COLORS.PINK,
         })
         .setOrigin(0.5);
 

@@ -15,7 +15,7 @@ export default class GameOverScene extends Phaser.Scene {
 
     this.add
       .image(width / 2, height / 2, "gameover")
-      .setDisplaySize(width * 0.9, height * 0.9);
+      .setDisplaySize(width, height);
     this.sound.stopAll();
     this.sound.play("yeyks");
 

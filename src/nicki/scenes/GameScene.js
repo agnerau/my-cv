@@ -32,7 +32,6 @@ export default class GameScene extends Phaser.Scene {
     this.load.image("heel", "/nicki_assets/img/heel.png");
     this.load.image("health", "/nicki_assets/img/health.png");
 
-    // Sounds
     this.load.audio("music", "/nicki_assets/sound/superbass.wav");
     this.load.audio("hit", "/nicki_assets/sound/hehehe.wav");
     this.load.audio("collect1", "/nicki_assets/sound/hyuh.wav");
@@ -305,7 +304,7 @@ export default class GameScene extends Phaser.Scene {
       const index = this.activeEntities.cardis.indexOf(entity);
       if (index > -1) this.activeEntities.cardis.splice(index, 1);
     } else if (entity.type === "anaconda") {
-      scoreManager.addPoints(1000);
+      scoreManager.addPoints(1000 * (levelManager.level + 1));
       playRandomCollect();
       this.activeEntities.anacondas = this.activeEntities.anacondas.filter(
         (e) => e !== entity

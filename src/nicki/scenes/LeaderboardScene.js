@@ -24,10 +24,9 @@ export default class LeaderboardScene extends Phaser.Scene {
     title.setOrigin(0.5);
 
     const startY = 140;
-    const lineHeight = 48;
+    const lineHeight = 36;
     const doAsync = async () => {
       this.highscores = await loadHighscores();
-      console.log(this.highscores, this.highlight);
       this.highscores.forEach((entry, index) => {
         const isHighlighted =
           this.highlight &&
@@ -43,7 +42,7 @@ export default class LeaderboardScene extends Phaser.Scene {
             `${index + 1}. ${entry.name} - ${entry.score}`,
             {
               fontFamily: "Impact, sans-serif",
-              fontSize: "32px",
+              fontSize: "25px",
               color,
             }
           )
