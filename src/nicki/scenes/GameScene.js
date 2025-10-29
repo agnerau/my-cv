@@ -303,10 +303,10 @@ export default class GameScene extends Phaser.Scene {
         scoreManager.minusPoints(100 * (levelManager.level + 1));
         healthManager.minusHealth(1);
         this.drawHealth();
+        entity.destroy();
+        const index = this.activeEntities.cardis.indexOf(entity);
+        if (index > -1) this.activeEntities.cardis.splice(index, 1);
       }
-      entity.destroy();
-      const index = this.activeEntities.cardis.indexOf(entity);
-      if (index > -1) this.activeEntities.cardis.splice(index, 1);
     } else if (entity.type === "anaconda") {
       scoreManager.addPoints(1000 * (levelManager.level + 1));
       playRandomCollect();
