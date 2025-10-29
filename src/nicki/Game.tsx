@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { COLORS } from "./config";
 
 export default function Game() {
   const gameContainerRef = useRef<HTMLDivElement>(null);
@@ -42,7 +43,7 @@ export default function Game() {
           LeaderboardScene,
         ],
         physics: { default: "arcade" },
-        backgroundColor: "#000000",
+        backgroundColor: COLORS.BLACK,
       };
 
       game = new Phaser.Game(config);
