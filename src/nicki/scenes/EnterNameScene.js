@@ -1,4 +1,4 @@
-import { scoreManager, levelManager } from "../config";
+import { scoreManager } from "../config";
 import { loadHighscores, saveHighscore } from "../utils/highscore";
 import { COLORS } from "../config";
 
@@ -7,22 +7,15 @@ export default class EnterNameScene extends Phaser.Scene {
     super("EnterNameScene");
   }
 
+  init(data) {
+    this.highscores = data.highscores;
+    this.isHighscore = data.isHighscore;
+  }
+
   preload() {}
 
   create() {
-    scoreManager.saveScore();
-    levelManager.reset();
-
-    const doAsync = async () => {
-      const highscores = await loadHighscores();
-
-      const isHighscore =
-        highscores.length < 10 ||
-        scoreManager.highScore > highscores[highscores.length - 1]?.score;
-
-      this.startNameEntry(highscores, isHighscore);
-    };
-    doAsync();
+    this.startNameEntry(this.highscores, this.isHighscore);
   }
 
   startNameEntry(highscores, isHighscore) {
@@ -56,18 +49,21 @@ export default class EnterNameScene extends Phaser.Scene {
           const name = this.enteredName || "Barb";
           const newEntry = { name, score: scoreManager.highScore };
 
-          let newTop10 = [];
-          const doAsync = async () => {
-            await saveHighscore(newEntry);
-            newTop10 = await loadHighscores();
-          };
-          doAsync();
+          (async () => {
+            try {
+              await saveHighscore(newEntry);
+              const newTop10 = await loadHighscores();
 
-          scoreManager.resetAll();
-          this.scene.start("LeaderboardScene", {
-            highscores: newTop10,
-            highlightEntry: newEntry,
-          });
+              scoreManager.resetAll();
+
+              this.scene.start("LeaderboardScene", {
+                highscores: newTop10,
+                highlightEntry: newEntry,
+              });
+            } catch (err) {
+              console.error("Failed to save/load highscores:", err);
+            }
+          })();
         } else if (event.key.length === 1 && this.enteredName.length < 10) {
           this.enteredName += event.key;
         }
@@ -77,7 +73,7 @@ export default class EnterNameScene extends Phaser.Scene {
     } else {
       this.time.delayedCall(2000, () => {
         scoreManager.resetAll();
-        this.scene.start("LeaderboardScene", { highscores });
+        this.scene.start("LeaderboardScene", { highscores: highscores });
       });
     }
   }

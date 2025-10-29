@@ -8,6 +8,7 @@ export default class LeaderboardScene extends Phaser.Scene {
 
   init(data) {
     this.highlight = data?.highlightEntry || null;
+    this.highscores = data?.highscores || [];
   }
 
   create() {
@@ -24,8 +25,10 @@ export default class LeaderboardScene extends Phaser.Scene {
 
     const startY = 130;
     const lineHeight = 36;
-    const doAsync = async () => {
-      this.highscores = await loadHighscores();
+    (async () => {
+      if (this.highscores.length === 0) {
+        this.highscores = await loadHighscores();
+      }
       this.highscores.forEach((entry, index) => {
         const isHighlighted =
           this.highlight &&
@@ -47,11 +50,9 @@ export default class LeaderboardScene extends Phaser.Scene {
           )
           .setOrigin(0.5);
       });
-
-      this.input.keyboard.once("keydown-ENTER", () => {
-        this.scene.start("StartScene");
-      });
-    };
-    doAsync();
+    })();
+    this.input.keyboard.once("keydown-ENTER", () => {
+      this.scene.start("StartScene");
+    });
   }
 }

@@ -1,12 +1,11 @@
+import { loadHighscores } from "../utils/highscore";
+import { scoreManager, levelManager } from "../config";
 export default class GameOverScene extends Phaser.Scene {
   constructor() {
     super("GameOverScene");
   }
 
-  preload() {
-    this.load.image("gameover", "/nicki_assets/img/over.png");
-    this.load.audio("yeyks", "/nicki_assets/sound/yeyks.wav");
-  }
+  preload() {}
 
   create() {
     const { width, height } = this.scale;
@@ -17,8 +16,19 @@ export default class GameOverScene extends Phaser.Scene {
     this.sound.stopAll();
     this.sound.play("yeyks");
 
+    scoreManager.saveScore();
+    levelManager.reset();
+    let highscores = [];
+    let isHighscore = false;
+    (async () => {
+      highscores = await loadHighscores();
+      isHighscore =
+        highscores.length < 10 ||
+        scoreManager.highScore > highscores[highscores.length - 1]?.score;
+    })();
+
     this.time.delayedCall(3000, () => {
-      this.scene.start("EnterNameScene");
+      this.scene.start("EnterNameScene", { highscores, isHighscore });
     });
   }
 }
