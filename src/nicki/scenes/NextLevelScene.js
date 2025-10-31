@@ -16,8 +16,6 @@ export default class NextLevelScene extends Phaser.Scene {
     nextImg.setDisplaySize(width, height);
 
     this.time.delayedCall(2000, () => {
-      const currentMusic = this.sound.get("music");
-      if (currentMusic) currentMusic.pause();
       this.scene.start("GameScene");
     });
   }
