@@ -1,11 +1,22 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { COLORS } from "./config";
+import NextImage from "next/image";
 
 export default function Game() {
   const gameContainerRef = useRef<HTMLDivElement>(null);
+  const [loading, setLoading] = useState(true);
+  const [dots, setDots] = useState("");
   let game: Phaser.Game | null = null;
+
+  useEffect(() => {
+    if (!loading) return;
+    const interval = setInterval(() => {
+      setDots((prev) => (prev.length < 3 ? prev + "." : ""));
+    }, 500);
+    return () => clearInterval(interval);
+  }, [loading]);
 
   useEffect(() => {
     const initPhaser = async () => {
@@ -50,6 +61,10 @@ export default function Game() {
       };
 
       game = new Phaser.Game(config);
+      setTimeout(() => setLoading(false), 2000);
+      setInterval(() => {
+        setDots((prev) => (prev.length < 4 ? prev + "." : ""));
+      }, 500);
     };
 
     initPhaser();
@@ -73,9 +88,25 @@ export default function Game() {
   }, []);
 
   return (
-    <div
-      ref={gameContainerRef}
-      className="w-full h-full flex items-center justify-center overflow-hidden"
-    />
+    <div className="w-full h-full relative overflow-hidden">
+      <div
+        className={`absolute inset-0 flex flex-col items-center justify-center bg-black text-white z-50 transition-opacity duration-700 ${
+          loading ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+      >
+        <NextImage
+          src="/nicki_assets/img/nicki.png"
+          alt="Nicki Loading"
+          width={200}
+          height={200}
+          className="mb-4"
+          priority
+        />
+
+        <p className="text-xl font-bold tracking-wide">Loading{dots}</p>
+      </div>
+
+      <div ref={gameContainerRef} className="w-full h-full" />
+    </div>
   );
 }
