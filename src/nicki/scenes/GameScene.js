@@ -17,7 +17,7 @@ export default class GameScene extends Phaser.Scene {
   preload() {
     this.load.image("next", "/nicki_assets/img/next.png");
     this.load.image("gameover", "/nicki_assets/img/over.png");
-    this.load.audio("yeyks", "/nicki_assets/sound/yeyks.wav");
+    this.load.audio("yeyks", "/nicki_assets/sound/yeyks.mp3");
   }
 
   create() {

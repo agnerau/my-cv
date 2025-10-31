@@ -55,14 +55,14 @@ export default class StartScene extends Phaser.Scene {
     this.load.image("heel", "/nicki_assets/img/heel.png");
     this.load.image("health", "/nicki_assets/img/health.png");
 
-    this.load.audio("music", "/nicki_assets/sound/superbass.wav");
-    this.load.audio("hit", "/nicki_assets/sound/hehehe.wav");
-    this.load.audio("collect1", "/nicki_assets/sound/hyuh.wav");
-    this.load.audio("collect2", "/nicki_assets/sound/kyeh.wav");
-    this.load.audio("collect3", "/nicki_assets/sound/KYuH.wav");
-    this.load.audio("collect4", "/nicki_assets/sound/mhein.wav");
-    this.load.audio("collect5", "/nicki_assets/sound/mmm.wav");
-    this.load.audio("collect6", "/nicki_assets/sound/kyehh.wav");
+    this.load.audio("music", "/nicki_assets/sound/superbass.mp3");
+    this.load.audio("hit", "/nicki_assets/sound/hehehe.mp3");
+    this.load.audio("collect1", "/nicki_assets/sound/hyuh.mp3");
+    this.load.audio("collect2", "/nicki_assets/sound/kyeh.mp3");
+    this.load.audio("collect3", "/nicki_assets/sound/KYuH.mp3");
+    this.load.audio("collect4", "/nicki_assets/sound/mhein.mp3");
+    this.load.audio("collect5", "/nicki_assets/sound/mmm.mp3");
+    this.load.audio("collect6", "/nicki_assets/sound/kyehh.mp3");
 
     this.load.image("pause_btn", "/nicki_assets/img/pause.png");
     this.load.image("play_btn", "/nicki_assets/img/play.png");
