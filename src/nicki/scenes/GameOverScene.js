@@ -14,20 +14,19 @@ export default class GameOverScene extends Phaser.Scene {
       .image(width / 2, height / 2, "gameover")
       .setDisplaySize(width, height);
     this.sound.stopAll();
+    const gameScene = this.scene.get("GameScene");
+    gameScene.musicStarted = false;
     this.sound.play("yeyks");
 
     scoreManager.saveScore();
     levelManager.reset();
-    let highscores = [];
-    let isHighscore = false;
-    (async () => {
-      highscores = await loadHighscores();
-      isHighscore =
+
+    this.time.delayedCall(3000, async () => {
+      const highscores = await loadHighscores();
+      const isHighscore =
         highscores.length < 10 ||
         scoreManager.highScore > highscores[highscores.length - 1]?.score;
-    })();
 
-    this.time.delayedCall(3000, () => {
       this.scene.start("EnterNameScene", { highscores, isHighscore });
     });
   }
