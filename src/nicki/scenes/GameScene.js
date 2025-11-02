@@ -327,6 +327,7 @@ export default class GameScene extends Phaser.Scene {
 
   handleCollision(nicki, entity) {
     const hitSound = this.sound.add("hit", { volume: 0.5 });
+    const anacondaSound = this.sound.add("anaconda");
     const collectSounds = [
       "collect1",
       "collect2",
@@ -356,7 +357,7 @@ export default class GameScene extends Phaser.Scene {
       }
     } else if (entity.type === "anaconda") {
       scoreManager.addPoints(1000 * (levelManager.level + 1));
-      playRandomCollect();
+      anacondaSound.play();
       this.activeEntities.anacondas = this.activeEntities.anacondas.filter(
         (e) => e !== entity
       );

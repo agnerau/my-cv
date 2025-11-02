@@ -63,6 +63,7 @@ export default class StartScene extends Phaser.Scene {
     this.load.audio("collect4", "/nicki_assets/sound/mhein.mp3");
     this.load.audio("collect5", "/nicki_assets/sound/mmm.mp3");
     this.load.audio("collect6", "/nicki_assets/sound/kyehh.mp3");
+    this.load.audio("anaconda", "/nicki_assets/sound/anaconda.mp3");
 
     this.load.image("pause_btn", "/nicki_assets/img/pause.png");
     this.load.image("play_btn", "/nicki_assets/img/play.png");
