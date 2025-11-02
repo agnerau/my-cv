@@ -36,11 +36,11 @@ export default class GameScene extends Phaser.Scene {
       this.musicStarted = true;
     }
 
-    this.timeLimit = 20000;
+    this.timeLimit = 15000;
     this.remainingTime = this.timeLimit;
 
     this.timerText = this.add
-      .text(width - 140, 20, "00:20", {
+      .text(width - 140, 20, "00:15", {
         fontFamily: "Impact",
         fontSize: 28,
         color: COLORS.WHITE,
