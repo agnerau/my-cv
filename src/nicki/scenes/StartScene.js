@@ -103,8 +103,7 @@ export default class StartScene extends Phaser.Scene {
     this.startImage.setVisible(false);
     this.rulesImage.setVisible(true);
     this.time.delayedCall(50, () => {
-      this.input.keyboard.once("keydown", () => this.showControls());
-      this.input.once("pointerdown", () => this.showControls());
+      this.input.keyboard.once("keydown-R", () => this.showControls());
     });
   }
 
@@ -112,8 +111,9 @@ export default class StartScene extends Phaser.Scene {
     this.rulesImage.setVisible(false);
     this.controlsImage.setVisible(true);
     this.time.delayedCall(50, () => {
-      this.input.keyboard.once("keydown", () => this.scene.start("GameScene"));
-      this.input.once("pointerdown", () => this.scene.start("GameScene"));
+      this.input.keyboard.once("keydown-R", () =>
+        this.scene.start("GameScene")
+      );
     });
   }
 }
