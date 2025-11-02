@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.77.0",
+    "echarts": "^5.6.0",
+    "echarts-for-react": "^3.0.2",
     "fs": "^0.0.1-security",
     "motion": "^12.23.24",
     "next": "15.5.4",
