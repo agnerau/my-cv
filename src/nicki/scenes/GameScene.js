@@ -28,7 +28,6 @@ export default class GameScene extends Phaser.Scene {
 
     this.spawnManagers = createSpawnManagers(this);
     scoreManager.resetScore();
-    healthManager.reset();
 
     if (!this.musicStarted) {
       this.music = this.sound.add("music", { loop: true, volume: 0.2 });

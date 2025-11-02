@@ -1,5 +1,5 @@
 import { loadHighscores } from "../utils/highscore";
-import { scoreManager, levelManager } from "../config";
+import { scoreManager, levelManager, healthManager } from "../config";
 export default class GameOverScene extends Phaser.Scene {
   constructor() {
     super("GameOverScene");
@@ -20,6 +20,7 @@ export default class GameOverScene extends Phaser.Scene {
 
     scoreManager.saveScore();
     levelManager.reset();
+    healthManager.reset();
 
     this.time.delayedCall(3000, async () => {
       const highscores = await loadHighscores();
