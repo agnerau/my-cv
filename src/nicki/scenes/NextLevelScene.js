@@ -10,6 +10,14 @@ export default class NextLevelScene extends Phaser.Scene {
   create() {
     scoreManager.saveScore();
     levelManager.levelUp();
+    if (levelManager.level > 4) {
+      const spawnManagers = this.registry.get("spawnManagers");
+
+      Object.values(spawnManagers)?.forEach((spawnManager) => {
+        if (spawnManager.type === "dollar" || spawnManager.type === "cardi")
+          spawnManager.maxActive += 1;
+      });
+    }
 
     const { width, height } = this.scale;
     const nextImg = this.add.image(width / 2, height / 2, "next");

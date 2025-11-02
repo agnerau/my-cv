@@ -1,5 +1,6 @@
 export default class SpawnManager {
-  constructor(scene, spawnFn, baseDelay, options = {}) {
+  constructor(type, scene, spawnFn, baseDelay, options = {}) {
+    this.type = type;
     this.scene = scene;
     this.spawnFn = spawnFn;
     this.baseDelay = baseDelay;

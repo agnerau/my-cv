@@ -27,6 +27,7 @@ export default class GameScene extends Phaser.Scene {
     this.background.setDisplaySize(width, height);
 
     this.spawnManagers = createSpawnManagers(this);
+    this.registry.set("spawnManagers", this.spawnManagers);
     scoreManager.resetScore();
 
     if (!this.musicStarted) {

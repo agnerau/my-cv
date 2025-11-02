@@ -42,6 +42,7 @@ export const ASSETS = {
 
 export function createSpawnManagers(scene: Phaser.Scene) {
   const dollarManager = new SpawnManager(
+    "dollar",
     scene,
     () => new Dollar(scene, Phaser.Math.RND.pick(ASSETS.dollars)),
     1000,
@@ -49,6 +50,7 @@ export function createSpawnManagers(scene: Phaser.Scene) {
   );
 
   const cardiManager = new SpawnManager(
+    "cardi",
     scene,
     () => new Cardi(scene, Phaser.Math.RND.pick(ASSETS.cardis)),
     2000,
@@ -56,6 +58,7 @@ export function createSpawnManagers(scene: Phaser.Scene) {
   );
 
   const anacondaManager = new SpawnManager(
+    "anaconda",
     scene,
     () => new Anaconda(scene, ASSETS.anaconda),
     5000,
@@ -63,6 +66,7 @@ export function createSpawnManagers(scene: Phaser.Scene) {
   );
 
   const heelManager = new SpawnManager(
+    "heel",
     scene,
     () => new Heel(scene, ASSETS.heel),
     9000,
