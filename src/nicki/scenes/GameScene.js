@@ -72,8 +72,9 @@ export default class GameScene extends Phaser.Scene {
     this.nicki = this.physics.add.sprite(width / 2, height / 2, "nicki");
     this.nicki.setDisplaySize(width * 0.12, height * 0.24);
     this.nicki.setCollideWorldBounds(true);
-    this.nicki.baseSpeed = 5;
-    this.nicki.speed = this.nicki.baseSpeed * (1 + levelManager.level * 0.2);
+    let nickiSpeed = this.registry.get("nickiSpeed");
+    this.nicki.speed = nickiSpeed * 1.2;
+    this.registry.set("nickiSpeed", this.nicki.speed);
     this.nicki.shieldActive = false;
     this.nicki.shieldEndTime = 0;
     // this.nicki = new Nicki(this);
@@ -182,6 +183,8 @@ export default class GameScene extends Phaser.Scene {
     const { dollarManager, cardiManager, anacondaManager, heelManager } =
       this.spawnManagers;
 
+    const speedMultiplier = 1 + levelManager.level * 0.2;
+
     if (
       dollarManager.shouldSpawn(
         0,
@@ -202,8 +205,8 @@ export default class GameScene extends Phaser.Scene {
       );
       entity.setScale(0.8);
       entity.speed = Phaser.Math.Between(
-        150 * (1 + levelManager.level * 0.1),
-        250 * (1 + levelManager.level * 0.1)
+        150 * speedMultiplier,
+        250 * speedMultiplier
       );
       entity.type = "dollar";
       this.entities.add(entity);
@@ -231,8 +234,8 @@ export default class GameScene extends Phaser.Scene {
       );
       entity.setScale(0.8);
       entity.speed = Phaser.Math.Between(
-        120 * (1 + levelManager.level * 0.1),
-        200 * (1 + levelManager.level * 0.1)
+        120 * speedMultiplier,
+        200 * speedMultiplier
       );
       entity.type = "cardi";
       this.entities.add(entity);
@@ -254,8 +257,8 @@ export default class GameScene extends Phaser.Scene {
       );
       entity.setScale(0.65);
       entity.speed = Phaser.Math.Between(
-        180 * (1 + levelManager.level * 0.1),
-        350 * (1 + levelManager.level * 0.1)
+        180 * speedMultiplier,
+        350 * speedMultiplier
       );
       entity.type = "anaconda";
       this.entities.add(entity);
@@ -277,8 +280,8 @@ export default class GameScene extends Phaser.Scene {
       );
       entity.setScale(0.7);
       entity.speed = Phaser.Math.Between(
-        250 * (1 + levelManager.level * 0.1),
-        400 * (1 + levelManager.level * 0.1)
+        250 * speedMultiplier,
+        400 * speedMultiplier
       );
       entity.type = "heel";
       this.entities.add(entity);
