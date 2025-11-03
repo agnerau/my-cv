@@ -137,7 +137,7 @@ export default function SmallWorld() {
           <select
             value={country}
             onChange={(e) => setCountry(e.target.value)}
-            className="border p-1 rounded ml-1"
+            className="border p-2 rounded-2xl ml-2  bg-gradient-to-r from-pink-300 to-purple-300 focus:border-gray-300 border-gray-300"
           >
             <option value="">Select a country</option>
             {countries.map((c) => (
