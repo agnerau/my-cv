@@ -9,6 +9,8 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@react-three/drei": "^10.7.6",
+    "@react-three/fiber": "^9.4.0",
     "@supabase/supabase-js": "^2.77.0",
     "echarts": "^5.6.0",
     "echarts-for-react": "^3.0.2",
@@ -18,7 +20,8 @@
     "next": "15.5.4",
     "phaser": "^3.90.0",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-dom": "19.1.0",
+    "three": "^0.181.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
