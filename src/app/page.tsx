@@ -44,7 +44,7 @@ export default function Home() {
         <h2 className="text-3xl font-bold text-center mb-8">PROJECTS</h2>
 
         <div className="w-full max-w-4xl h-[500px] border border-gray-300 rounded shadow-lg bg-white flex items-center justify-center">
-          {/* <NickiGameWrapper /> */}
+          <NickiGameWrapper />
         </div>
 
         <div className="w-full max-w-4xl h-[500px] border border-gray-300 rounded shadow-lg bg-white flex items-center justify-center">
