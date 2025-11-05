@@ -7,7 +7,7 @@ import ToteBagScene from "@/tote/page";
 
 export default function Home() {
   return (
-    <main className="flex flex-col min-h-screen text-white bg-gradient-to-b from-indigo-500 via-purple-600 to-pink-600">
+    <main className="flex flex-col min-h-screen text-white bg-gradient-to-b from-pink-500 via-purple-600 to-indigo-600">
       <section className="flex items-center justify-center py-16">
         <CircularText
           text="AGNE*MARIJA*COOL*WEBSITE*"
@@ -45,8 +45,8 @@ export default function Home() {
           PROJECTS
         </h2>
 
-        <div className="min-h-screen flex flex-col md:flex-row items-center px-4 md:pl-8 md:pr-24">
-          <div className="w-full md:w-2/3 flex items-center justify-center order-2 md:order-1">
+        <div className="min-h-screen flex flex-col md:flex-row items-center px-4 md:pl-8 md:pr-24 ">
+          <div className="w-full md:w-2/3 flex items-center justify-center order-2 md:order-1 ">
             <div className="w-[80%] h-[90vh] bg-white rounded-2xl shadow-xl flex items-center justify-center">
               <SmallWorldWrapper />
             </div>
