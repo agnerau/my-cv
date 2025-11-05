@@ -6,6 +6,7 @@ import * as THREE from "three";
 
 const ToteBagModel: React.FC = () => {
   const { scene } = useGLTF("/tote/totebag.glb");
+
   const texture = useLoader(THREE.TextureLoader, "/tote/lolipop.png");
   <mesh position={[0, 0.4, 0.15]} scale={[0.6, 0.6, 0.6]}>
     <planeGeometry args={[0.8, 0.8]} />
@@ -16,10 +17,10 @@ const ToteBagModel: React.FC = () => {
 
 const ToteBagScene: React.FC = () => {
   return (
-    <div className="w-full h-[50vh] bg-gradient-to-b from-gray-100 to-white">
+    <div className="w-full h-[80vh] rounded-2xl overflow-hidden">
       <Canvas
         shadows
-        camera={{ position: [1, 1, 6], fov: 90 }}
+        camera={{ position: [1, 0.5, 6], fov: 90 }}
         style={{ background: "#ffffff" }}
       >
         <ambientLight intensity={1.5} />

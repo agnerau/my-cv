@@ -130,64 +130,78 @@ export default function SmallWorld() {
   };
 
   return (
-    <div className="p-6 space-y-4">
-      <div className="flex gap-4 items-center flex-wrap mt-6">
-        <label>
-          Country:
-          <select
-            value={country}
-            onChange={(e) => setCountry(e.target.value)}
-            className="border p-2 rounded-2xl ml-2  bg-gradient-to-r from-pink-300 to-purple-300 focus:border-gray-300 border-gray-300"
-          >
-            <option value="">Select a country</option>
-            {countries.map((c) => (
-              <option key={c} value={c}>
-                {c}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          Friends:
-          <input
-            type="number"
-            value={friends}
-            onChange={(e) => setFriends(+e.target.value)}
-            className="border p-1 rounded ml-1"
-          />
-        </label>
-        <label className="relative group">
-          Loose connections:
-          <Info
-            size={16}
-            className="inline ml-1 text-gray-400 cursor-pointer hover:text-gray-600"
-          />
-          <span className="absolute left-0 top-6 z-10 hidden w-56 rounded-lg bg-gray-800 text-white text-sm p-2 group-hover:block">
-            Loose connections are acquaintances or weak ties, like coworkers,
-            people you met once, or online connections.
-          </span>
-          <input
-            type="number"
-            value={loose}
-            onChange={(e) => setLoose(+e.target.value)}
-            className="border p-1 rounded ml-1"
-          />
-        </label>
-        <label>
-          Know me directly:
-          <input
-            type="checkbox"
-            checked={knowsMe}
-            onChange={(e) => setKnowsMe(e.target.checked)}
-            className="ml-1"
-          />
-        </label>
+    <div className="flex justify-center items-center min-h-screen p-6">
+      <div className="w-full max-w-2xl">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
+          <div className="flex flex-col space-y-4">
+            <label className="label-base">
+              Country:
+              <select
+                value={country}
+                onChange={(e) => setCountry(e.target.value)}
+                className="input-gradient input-field w-full mt-1"
+              >
+                <option value="">Select a country</option>
+                {countries.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className="label-base relative group">
+              Loose connections:
+              <Info
+                size={16}
+                className="inline ml-1 text-gray-400 cursor-pointer hover:text-gray-600"
+              />
+              <span className="tooltip font-medium">
+                Loose connections are acquaintances or weak ties, like
+                coworkers, people you met once, or online connections.
+              </span>
+              <input
+                type="number"
+                value={loose}
+                min={0}
+                onChange={(e) => setLoose(+e.target.value)}
+                className="input-gradient input-field w-full mt-1"
+              />
+            </label>
+          </div>
+
+          <div className="flex flex-col space-y-4">
+            <label className="label-base">
+              Friends:
+              <input
+                type="number"
+                value={friends}
+                min={0}
+                onChange={(e) => setFriends(+e.target.value)}
+                className="input-gradient input-field w-full mt-1"
+              />
+            </label>
+
+            <label className="label-base flex flex-col">
+              Know me directly:
+              <input
+                type="checkbox"
+                checked={knowsMe}
+                onChange={(e) => setKnowsMe(e.target.checked)}
+                className="mt-3 self-start ml-2"
+              />
+            </label>
+          </div>
+        </div>
+
+        <div className="mt-8">
+          {loading ? (
+            <p className="text-center">Calculating...</p>
+          ) : (
+            <ReactECharts option={option} style={{ height: 400 }} />
+          )}
+        </div>
       </div>
-      {loading ? (
-        <p>Calculating...</p>
-      ) : (
-        <ReactECharts option={option} style={{ height: 400 }} />
-      )}
     </div>
   );
 }

@@ -24,3 +24,19 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.label-base {
+  @apply text-gray-600 font-semibold;
+}
+
+.input-gradient {
+  @apply bg-gradient-to-r from-pink-300 to-purple-300 border border-gray-300 rounded-2xl focus:border-gray-300;
+}
+
+.input-field {
+  @apply font-normal text-gray-800 p-2 ml-2;
+}
+
+.tooltip {
+  @apply absolute left-0 top-6 z-10 hidden w-56 rounded-lg bg-gray-800 text-white text-sm p-2 group-hover:block;
+}
