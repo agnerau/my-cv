@@ -1,3 +1,5 @@
+import { showLoadingBar } from "../utils/ui";
+
 export default class StartScene extends Phaser.Scene {
   constructor() {
     super("StartScene");
@@ -5,36 +7,7 @@ export default class StartScene extends Phaser.Scene {
   }
 
   preload() {
-    const { width, height } = this.scale;
-    const loadingText = this.add
-      .text(width / 2, height / 2, "Loading...", {
-        fontFamily: "Impact, sans-serif",
-        fontSize: "32px",
-        color: "#FF69B4",
-      })
-      .setOrigin(0.5);
-
-    const progressBar = this.add.rectangle(
-      width / 2 - 150,
-      height / 2 + 50,
-      0,
-      20,
-      0xff69b4
-    );
-    const progressBox = this.add
-      .rectangle(width / 2, height / 2 + 50, 300, 20)
-      .setStrokeStyle(2, 0xffffff);
-
-    this.load.on("progress", (value) => {
-      progressBar.width = 300 * value;
-    });
-
-    this.load.on("complete", () => {
-      loadingText.destroy();
-      progressBar.destroy();
-      progressBox.destroy();
-    });
-
+    showLoadingBar(this);
     this.load.image("start", "/nicki_assets/img/start.png");
     this.load.image("rules", "/nicki_assets/img/rules.png");
     this.load.image("controls", "/nicki_assets/img/controls.png");

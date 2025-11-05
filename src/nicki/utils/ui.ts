@@ -38,3 +38,35 @@ export function drawBackground(scene: Phaser.Scene, key: string) {
   bg.setOrigin(0);
   bg.setDisplaySize(scene.scale.width, scene.scale.height);
 }
+
+export function showLoadingBar(scene: Phaser.Scene) {
+  const { width, height } = scene.scale;
+  const loadingText = scene.add
+    .text(width / 2, height / 2, "Loading...", {
+      fontFamily: "Impact, sans-serif",
+      fontSize: "32px",
+      color: "#FF69B4",
+    })
+    .setOrigin(0.5);
+
+  const progressBar = scene.add.rectangle(
+    width / 2 - 150,
+    height / 2 + 50,
+    0,
+    20,
+    0xff69b4
+  );
+  const progressBox = scene.add
+    .rectangle(width / 2, height / 2 + 50, 300, 20)
+    .setStrokeStyle(2, 0xffffff);
+
+  scene.load.on("progress", (value: number) => {
+    progressBar.width = 300 * value;
+  });
+
+  scene.load.on("complete", () => {
+    loadingText.destroy();
+    progressBar.destroy();
+    progressBox.destroy();
+  });
+}

@@ -1,5 +1,6 @@
 import { createSpawnManagers, WINDOW_WIDTH, WINDOW_HEIGHT } from "../config";
 import { scoreManager, healthManager, levelManager, COLORS } from "../config";
+import { showLoadingBar } from "../utils/ui";
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -15,6 +16,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   preload() {
+    showLoadingBar(this);
     this.load.image("next", "/nicki_assets/img/next.png");
     this.load.image("gameover", "/nicki_assets/img/over.png");
     this.load.audio("yeyks", "/nicki_assets/sound/yeyks.mp3");
