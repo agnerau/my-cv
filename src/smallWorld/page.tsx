@@ -8,8 +8,8 @@ export default function SmallWorld() {
   const [countries, setCountries] = useState<string[]>([]);
   const [country, setCountry] = useState("Lithuania");
   const [population, setPopulation] = useState(8_000_000_000);
-  const [friends, setFriends] = useState(10);
-  const [loose, setLoose] = useState(20);
+  const [friends, setFriends] = useState("10");
+  const [loose, setLoose] = useState("20");
   const [knowsMe, setKnowsMe] = useState(false);
   const [data, setData] = useState<number[]>([]);
   const [loading, setLoading] = useState(false);
@@ -78,7 +78,9 @@ export default function SmallWorld() {
     const probs: number[] = [];
 
     for (let d = 1; d <= maxDegrees; d++) {
-      const reach = Math.pow(friends + loose, d) * clusteringFactor;
+      const reach =
+        Math.pow(Number(friends || 0) + Number(loose || 0), d) *
+        clusteringFactor;
 
       const logScale = Math.log10(population + 100000);
       const cap = 300 / (d * logScale);
@@ -150,21 +152,23 @@ export default function SmallWorld() {
               </select>
             </label>
 
-            <label className="label-base relative group">
+            <label className="label-base">
               Loose connections:
-              <Info
-                size={16}
-                className="inline ml-1 text-gray-400 cursor-pointer hover:text-gray-600"
-              />
-              <span className="tooltip font-medium">
-                Loose connections are acquaintances or weak ties, like
-                coworkers, people you met once, or online connections.
-              </span>
+              <div className="relative inline-block group ml-1">
+                <Info
+                  size={16}
+                  className="inline text-gray-400 cursor-pointer hover:text-gray-600"
+                />
+                <span className="tooltip font-medium absolute left-6 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  Loose connections are acquaintances or weak ties, like
+                  coworkers, people you met once, or online connections.
+                </span>
+              </div>
               <input
                 type="number"
                 value={loose}
                 min={0}
-                onChange={(e) => setLoose(+e.target.value)}
+                onChange={(e) => setLoose(e.target.value)}
                 className="input-gradient input-field w-full mt-1"
               />
             </label>
@@ -177,7 +181,7 @@ export default function SmallWorld() {
                 type="number"
                 value={friends}
                 min={0}
-                onChange={(e) => setFriends(+e.target.value)}
+                onChange={(e) => setFriends(e.target.value)}
                 className="input-gradient input-field w-full mt-1"
               />
             </label>
