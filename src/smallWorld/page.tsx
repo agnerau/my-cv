@@ -130,7 +130,7 @@ export default function SmallWorld() {
   };
 
   return (
-    <div className="flex justify-center items-center w-full min-h-60 p-6 mt-6">
+    <div className="flex justify-center items-center w-full min-h-60 p-10 mt-6">
       <div className="w-full ">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
           <div className="flex flex-col space-y-4">
@@ -194,16 +194,16 @@ export default function SmallWorld() {
           </div>
         </div>
 
-        <div className="mt-8">
+        <div className="mt-8 w-full h-[60vh]">
           {loading ? (
-            <p className="text-center">Calculating...</p>
-          ) : (
-            <div className="w-full h-[60vh] ">
-              <ReactECharts
-                option={option}
-                style={{ width: "100%", height: "100%" }}
-              />
+            <div className="flex justify-center items-center w-full h-full">
+              <p className="text-center label-base">Calculating...</p>
             </div>
+          ) : (
+            <ReactECharts
+              option={option}
+              style={{ width: "100%", height: "100%" }}
+            />
           )}
         </div>
       </div>
