@@ -111,7 +111,7 @@ export default class GameScene extends Phaser.Scene {
     this.isPaused = false;
 
     this.pauseButton = this.add
-      .image(this.scale.width - 150, 450, "pause_btn")
+      .image(this.scale.width - 150, this.scale.height - 50, "pause_btn")
       .setInteractive()
       .setScale(0.35)
       .setScrollFactor(0)
@@ -124,7 +124,7 @@ export default class GameScene extends Phaser.Scene {
     this.muteButton = this.add
       .image(
         this.scale.width - 70,
-        450,
+        this.scale.height - 50,
         this.sound.mute ? "sound_off" : "sound_on"
       )
       .setInteractive()
