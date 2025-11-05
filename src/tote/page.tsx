@@ -1,18 +1,25 @@
 "use client";
-import React from "react";
-import { Canvas, useLoader } from "@react-three/fiber";
+import React, { useRef } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
 const ToteBagModel: React.FC = () => {
   const { scene } = useGLTF("/tote/totebag.glb");
 
-  const texture = useLoader(THREE.TextureLoader, "/tote/lolipop.png");
-  <mesh position={[0, 0.4, 0.15]} scale={[0.6, 0.6, 0.6]}>
-    <planeGeometry args={[0.8, 0.8]} />
-    <meshBasicMaterial map={texture} transparent />
-  </mesh>;
-  return <primitive object={scene} scale={1.2} position={[0, -1.2, 0]} />;
+  const bagRef = useRef<THREE.Group>(null);
+
+  useFrame(() => {
+    if (bagRef.current) {
+      bagRef.current.rotation.y -= 0.003;
+    }
+  });
+
+  return (
+    <group ref={bagRef} scale={1.2} position={[0, -1.2, 0]}>
+      <primitive object={scene} />
+    </group>
+  );
 };
 
 const ToteBagScene: React.FC = () => {
