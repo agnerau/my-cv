@@ -8,69 +8,76 @@ import ToteBagScene from "@/tote/page";
 export default function Home() {
   return (
     <main className="flex flex-col min-h-screen text-white bg-gradient-to-b from-pink-500 via-purple-600 to-pink-600">
-      <section className="flex items-center justify-center py-16">
-        <CircularText
-          text="AGNE*MARIJA*COOL*WEBSITE*"
-          onHover="speedUp"
-          spinDuration={20}
-          className="custom-class"
-        />
-      </section>
-
-      <section className="flex flex-col items-center justify-center text-center px-8 space-y-8 mt-10 mb-16">
-        <h1 className="text-5xl md:text-6xl font-bold">
-          TAI i LUPA AR i AKI AR i ANTAKI AUSKARA
-        </h1>
-
-        <div className="flex flex-col space-y-4 text-lg md:text-xl font-semibold">
-          <DecryptedText
-            text="Hi, I am Agne."
-            speed={70}
-            animateOn="view"
-            revealDirection="start"
-            sequential={true}
+      <section className="flex flex-col items-center justify-center text-center min-h-screen px-4 sm:px-6 md:px-8 space-y-6 sm:space-y-8">
+        <section className="flex items-center justify-center py-10">
+          <CircularText
+            text="CERTIFIED*THE*COOLEST*PAGE*"
+            onHover="speedUp"
+            spinDuration={20}
+            className="custom-class"
           />
-          <DecryptedText
-            text="Welcome to my website."
-            speed={70}
-            animateOn="view"
-            revealDirection="start"
-            sequential={true}
-          />
-        </div>
+        </section>
+
+        <section className="flex flex-col items-center justify-center text-center px-8 space-y-8 mt-8 mb-16">
+          <h1 className="text-5xl md:text-6xl font-bold">
+            TRUTH CAN ONLY BE FOUND IN ONE PLACE: THE CODE
+            {/* BRACKETS ARE LIKE HUGS FOR CODE */}
+          </h1>
+          <div className="flex flex-col space-y-4 text-lg md:text-xl font-semibold">
+            ― Robert C. Martin
+          </div>
+          <div className="flex flex-col space-y-4 text-3xl mt-10 font-semibold ">
+            <DecryptedText
+              text="Hi, I am Agne."
+              speed={70}
+              animateOn="view"
+              revealDirection="start"
+              sequential={true}
+            />
+            <DecryptedText
+              text="Welcome to my website."
+              speed={70}
+              animateOn="view"
+              revealDirection="start"
+              sequential={true}
+            />
+          </div>
+        </section>
       </section>
 
       <section className="flex flex-col w-full">
-        <h2 className="text-3xl font-bold text-center my-16 tracking-wide">
-          PROJECTS
+        <h2 className="text-4xl font-bold text-center my-16 tracking-wide">
+          ~ PROJECTS ~
         </h2>
 
         <div className="min-h-screen flex flex-col md:flex-row items-center px-4 md:pl-8 md:pr-24 ">
           <div className="w-full md:w-2/3 flex items-center justify-center order-2 md:order-1 ">
-            <div className="w-[80%] h-[90vh] bg-white rounded-2xl shadow-xl flex items-center justify-center">
+            <div className="w-[80%] h-[90vh]  bg-white rounded-2xl shadow-xl flex items-center justify-center">
+              {/* sm:w-[90%] sm:h-[100vh] */}
               <SmallWorldWrapper />
             </div>
           </div>
           <div className="w-full md:w-1/3 text-center md:text-left order-1 md:order-2 space-y-6 p-8">
             <h3 className="text-4xl font-bold">Small World Theory</h3>
-            <p className="text-lg text-white font-medium leading-relaxed">
-              Small World Theory originally comes from the Six Degrees of
-              Separation theory. Frigyes Karinthy proposed the idea that you can
-              connect with everyone in the world through a chain of at most six
-              people. Later, Duncan Watts and Steven Strogatz proved this
-              mathematically by creating various connectivity graphs and
-              calculating separation degrees.
+            <p className="description-text">
+              {" "}
+              <strong>Frigyes Karinthy</strong> proposed that you can connect
+              with everyone in the world through a chain of at most six people.
+              Later, <strong>Duncan Watts</strong> and{" "}
+              <strong>Steven Strogatz</strong> proved this mathematically by
+              creating various connectivity graphs and calculating separation
+              degrees.
               <br />
               <br />
               In the graph on the left, you can see a simplified version of this
-              model. You can select your country, specify how many friends you
-              have, and indicate how many loose connections you maintain. The
-              model then calculates the probability of each degree of
-              separation. Of course, if you know me, it’s much simpler — the
-              first degree is 100%!
+              model. You can select your <strong>country</strong>, specify how
+              many <strong>friends</strong> you have, and indicate how many{" "}
+              <strong>loose connections</strong> you maintain. The model then
+              calculates the <strong>probability</strong> of each degree of
+              separation.
               <br />
               <br />
-              Explanation:
+              <strong>Explanation:</strong>
               <br />
               1° – You know me directly.
               <br />
@@ -82,10 +89,8 @@ export default function Home() {
               And so on…
               <br />
               <br />
-              It’s fascinating how this demonstrates that we are more connected
-              than we realize, and that the world is actually small. The
-              small-world effect can even be observed in gene networks and the
-              Internet — everything is connected!
+              The small-world effect can even be observed in gene networks and
+              the Internet — <strong>everything is connected!</strong>
             </p>
           </div>
         </div>
@@ -93,22 +98,23 @@ export default function Home() {
         <div className="min-h-screen flex flex-col md:flex-row items-center justify-between px-8 md:px-24">
           <div className="w-full md:w-1/2 text-center md:text-right space-y-6 p-8">
             <h3 className="text-4xl font-bold">Tote Bag Scene</h3>
-            <p className="text-lg text-white font-medium leading-relaxed">
-              Here you can see a 3D model of a tote bag I designed :3. I used
-              the Three.js library to create this scene and Blender to apply the
-              design to the bag.
+            <p className="description-text">
+              Here you can see a <strong>3D model</strong> of a tote bag I
+              designed :3. I used the <strong>Three.js</strong> library to
+              create this scene and <strong>Blender</strong> to apply the design
+              to the bag.
               <br />
-              <br />
-              I try to live as eco-friendly a lifestyle as possible, so a tote
-              bag goes with me everywhere I go. I’m really happy that I could
-              combine two of my passions — ecology and programming — and finally
-              create a 3D showcase.
+              <br />I try to live as <strong>eco-friendly</strong> as possible,
+              so a tote bag goes with me everywhere I go. I’m really happy that
+              I could combine two of my passions —{" "}
+              <strong>ecology and programming</strong> — and finally create a 3D
+              showcase.
               <br />
               <br />
               Who knows, maybe one day I’ll even use it to promote my own brand
               or create more eco-friendly products in 3D. For now, it’s a
-              playful experiment and a small reminder that technology can
-              support a sustainable lifestyle.
+              playful experiment and a small reminder that{" "}
+              <strong>technology can support a sustainable lifestyle</strong>.
             </p>
           </div>
           <div className="w-full md:w-1/2 flex items-center justify-center">
@@ -118,46 +124,51 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="min-h-screen flex flex-col items-center justify-center px-8 md:px-24 space-y-8 ">
+        <div className="min-h-screen flex flex-col items-center justify-center px-8 md:px-24 space-y-8 mt-10 ">
           <h3 className="text-4xl font-bold text-center">Nicki Game</h3>
 
           <div className="w-full  grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-8 items-center text-white font-medium leading-relaxed ">
             <div className="max-w-xs text-left space-y-4 mx-auto">
-              <p className="text-lg text-white font-medium">
-                The superstar of all projects – a Nicki Minaj–inspired video
-                game! This fun and engaging challenge tests your reflexes and
-                strategy. Be careful — enemies attack from all directions!
+              <p className="description-text">
+                And finally, the <strong>superstar</strong> of all projects –
+                Nicki Minaj-inspired <strong>video game</strong>! This is a fun
+                and engaging game where your goal is to score as many{" "}
+                <strong>points</strong> as possible, but be careful —{" "}
+                <strong>enemies</strong> attack you from the sky!
                 <br />
                 <br />
                 Collect <strong>money</strong> to increase your score, grab the{" "}
-                <strong>anaconda</strong> for a bonus boost, and use the{" "}
-                <strong>heel</strong> for protection.
+                <strong>anaconda</strong> for an extra points boost, and use the{" "}
+                <strong>heel</strong> to protect yourself from enemies.
               </p>
             </div>
 
-            <div className="flex items-center justify-center rounded-2xl  overflow-hidden  w-[100vh] md:w-[125vh] h-[70vh] mx-auto">
+            <div className="flex items-center justify-center rounded-2xl  overflow-hidden  w-[120vh] md:w-[125vh] h-[70vh] mx-auto">
+              {/* w-[125vh] md:w-[50vh] h-[30vh] */}
               <NickiGameWrapper />
             </div>
 
             <div className="max-w-xs text-left space-y-4 mx-auto">
-              <p className="text-lg text-white font-medium">
-                The game was originally built with <strong>Pygame</strong> and
-                later refactored using the <strong>Phaser</strong> library to
-                make it playable directly in the browser.
+              <p className="description-text">
+                From a <strong>technical perspective</strong>, the game was
+                originally created with <strong>Pygame</strong>, but later
+                refactored using the <strong>Phaser</strong> library so it could
+                be played directly on the <strong>website</strong>.
                 <br />
                 <br />
-                Score high enough and you’ll earn a spot on the leaderboard!
+                Score high enough and you’ll earn a spot on the{" "}
+                <strong>leaderboard</strong>!
                 <br />
                 <br />
-                Good luck and have fun!
+                Good luck and have<strong>fun!</strong>
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      <footer className="py-8 text-center text-gray-200 backdrop-blur-sm">
-        &copy; {new Date().getFullYear()} Agne Marija. All rights reserved.
+      <footer className="py-8 text-center text-white backdrop-blur-sm">
+        &copy; {new Date().getFullYear()} Agne
       </footer>
     </main>
   );

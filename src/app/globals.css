@@ -16,3 +16,7 @@
 .tooltip {
   @apply absolute left-0 top-6 z-10 hidden w-56 rounded-lg bg-gray-800 text-white text-sm p-2 group-hover:block;
 }
+
+.description-text {
+  @apply text-2xl text-white font-normal leading-relaxed; /* md: text-lg; */
+}
