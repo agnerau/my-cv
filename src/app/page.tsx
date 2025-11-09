@@ -23,7 +23,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="flex flex-col min-h-[100dvh] text-white bg-gradient-to-b from-pink-500 via-purple-600 to-pink-600">
+    <main className="flex flex-col min-h-[100dvh] text-white  bg-pink-600 md:bg-gradient-to-b md:from-pink-500 md:via-purple-600 md:to-pink-600">
       <section className="flex flex-col items-center justify-center text-center h-full px-4 sm:px-6 md:px-8 space-y-6 sm:space-y-8">
         <section className="flex items-center justify-center py-10">
           <CircularText
