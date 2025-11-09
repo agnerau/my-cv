@@ -25,3 +25,14 @@
     @apply md:text-right;
   }
 }
+
+@media screen and (min-width: 1920px) {
+  .description-text {
+    font-size: 1.1rem;
+  }
+}
+@media screen and (min-width: 2220px) {
+  .description-text {
+    font-size: 1.2rem;
+  }
+}
