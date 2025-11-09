@@ -388,9 +388,11 @@ export default class GameScene extends Phaser.Scene {
   drawHealth() {
     this.healthIcons.forEach((icon) => icon.destroy());
     this.healthIcons = [];
+    const height = this.scale.width < 760 ? this.scale.height - 50 : 40;
+    const width = this.scale.width < 760 ? 50 : this.scale.width - 350;
     for (let i = 0; i < healthManager.health; i++) {
       const heart = this.add
-        .image(this.scale.width - 350 + i * 50, 40, "health")
+        .image(width + i * 50, height, "health")
         .setDepth(10);
       heart.setDisplaySize(40, 35);
       this.healthIcons.push(heart);

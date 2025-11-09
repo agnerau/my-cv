@@ -12,7 +12,9 @@ export default async function handler(
       .order("score", { ascending: false })
       .limit(10);
 
-    if (error) return res.status(500).json({ error: error.message });
+    if (error) {
+      return res.status(500).json({ error: error.message });
+    }
     return res.status(200).json(data);
   }
 

@@ -22,13 +22,17 @@ export default class GameOverScene extends Phaser.Scene {
     levelManager.reset();
     healthManager.reset();
 
-    this.time.delayedCall(3000, async () => {
+    this.time.delayedCall(2000, async () => {
       const highscores = await loadHighscores();
       const isHighscore =
         highscores.length < 10 ||
         scoreManager.highScore > highscores[highscores.length - 1]?.score;
-
-      this.scene.start("EnterNameScene", { highscores, isHighscore });
+      if (isHighscore) {
+        this.scene.start("EnterNameScene");
+      } else {
+        scoreManager.resetAll();
+        this.scene.start("LeaderboardScene", { highscores: highscores });
+      }
     });
   }
 }
