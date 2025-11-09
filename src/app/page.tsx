@@ -1,3 +1,5 @@
+"use client";
+
 import CircularText from "./components/CircularText";
 import DecryptedText from "./components/DecryptedText";
 
@@ -5,7 +7,21 @@ import NickiGameWrapper from "./NickiGameWrapper";
 import SmallWorldWrapper from "./SmallWorldWrapper";
 import ToteBagScene from "@/tote/page";
 
+import { useEffect, useState } from "react";
+
 export default function Home() {
+  const [isDesktop, setIsDesktop] = useState(false);
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 768);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <main className="flex flex-col min-h-screen text-white bg-gradient-to-b from-pink-500 via-purple-600 to-pink-600">
       <section className="flex flex-col items-center justify-center text-center min-h-screen px-4 sm:px-6 md:px-8 space-y-6 sm:space-y-8">
@@ -124,11 +140,11 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="min-h-screen flex flex-col items-center justify-center px-8 md:px-24 space-y-8 mt-10 ">
+        <div className="min-h-screen flex flex-col items-center justify-center px-8 md:px-24 space-y-8 mt-10">
           <h3 className="text-4xl font-bold text-center">Nicki Game</h3>
 
-          <div className="w-full  grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-8 items-center text-white font-medium leading-relaxed ">
-            <div className="max-w-xs text-left space-y-4 mx-auto">
+          <div className="w-full grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-0 md:gap-8 items-center text-white font-medium leading-relaxed">
+            <div className="max-w-xs text-left space-y-4 mx-auto order-1 md:order-none">
               <p className="description-text">
                 And finally, the <strong>superstar</strong> of all projects –
                 Nicki Minaj-inspired <strong>video game</strong>! This is a fun
@@ -143,12 +159,22 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="flex items-center justify-center rounded-2xl  overflow-hidden  w-[120vh] md:w-[125vh] h-[70vh] mx-auto">
-              {/* w-[125vh] md:w-[50vh] h-[30vh] */}
-              <NickiGameWrapper />
+            <div className="flex items-center justify-center rounded-2xl overflow-hidden w-full md:w-[125vh] h-[40vh] md:h-[70vh] mx-auto order-2 md:order-none">
+              {isDesktop ? (
+                <NickiGameWrapper />
+              ) : (
+                <div className="text-center p-6 bg-black/40 rounded-xl">
+                  <p className="text-lg font-semibold">
+                    🎮 This game can only be played on a computer.
+                  </p>
+                  <p className="text-sm opacity-80 mt-2">
+                    Visit this page on your desktop or laptop to play!
+                  </p>
+                </div>
+              )}
             </div>
 
-            <div className="max-w-xs text-left space-y-4 mx-auto">
+            <div className="max-w-xs text-left space-y-4 mx-auto order-3 md:order-none">
               <p className="description-text">
                 From a <strong>technical perspective</strong>, the game was
                 originally created with <strong>Pygame</strong>, but later
@@ -160,7 +186,7 @@ export default function Home() {
                 <strong>leaderboard</strong>!
                 <br />
                 <br />
-                Good luck and have<strong>fun!</strong>
+                Good luck and have <strong>fun!</strong>
               </p>
             </div>
           </div>
