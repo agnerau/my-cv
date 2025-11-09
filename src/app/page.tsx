@@ -23,8 +23,8 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="flex flex-col min-h-screen text-white bg-gradient-to-b from-pink-500 via-purple-600 to-pink-600">
-      <section className="flex flex-col items-center justify-center text-center min-h-screen px-4 sm:px-6 md:px-8 space-y-6 sm:space-y-8">
+    <main className="flex flex-col min-h-[100dvh] text-white bg-gradient-to-b from-pink-500 via-purple-600 to-pink-600">
+      <section className="flex flex-col items-center justify-center text-center h-full px-4 sm:px-6 md:px-8 space-y-6 sm:space-y-8">
         <section className="flex items-center justify-center py-10">
           <CircularText
             text="CERTIFIED*THE*COOLEST*PAGE*"
@@ -61,7 +61,7 @@ export default function Home() {
         </section>
       </section>
 
-      <section className="flex flex-col w-full">
+      <section className="flex flex-col w-full h-full">
         <h2 className="text-4xl font-bold text-center my-16 tracking-wide">
           ~ PROJECTS ~
         </h2>
