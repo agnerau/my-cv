@@ -59,8 +59,7 @@ export default function SmallWorld() {
 
           const combinedPop = country === myCountry ? userPop : userPop + myPop;
 
-          const randomFactor = 0.9 + Math.random() * 0.2;
-          setPopulation(Math.round(combinedPop * randomFactor));
+          setPopulation(Math.round(combinedPop * 1000));
         }
       } catch (err) {
         console.error("Error fetching population:", err);
@@ -71,25 +70,26 @@ export default function SmallWorld() {
 
     fetchPopulation();
   }, [country]);
+
   const maxDegrees = 6;
-  const clusteringFactor = 0.3;
+  // if loose or friends are infinite - probability doesnt grow because it just shows which degree is most possible
+  // higher degrees are also combination of previous degress minus clustering
   const calculateProbabilities = useCallback((): number[] => {
     if (knowsMe) return [100];
     const probs: number[] = [];
+    const clusteringFactor =
+      Number(friends) / (Number(friends) + Number(loose) + 1);
+    const logScale = Math.log10(population);
 
     for (let d = 1; d <= maxDegrees; d++) {
-      const reach =
-        Math.pow(Number(friends || 0) + Number(loose || 0), d) *
-        clusteringFactor;
+      let reach = Math.pow(Number(friends || 0) + Number(loose || 0), d);
+      if (d > 1) {
+        reach *= clusteringFactor;
+      }
 
-      const logScale = Math.log10(population + 100000);
       const cap = 300 / (d * logScale);
-      const prob = Math.min((reach / population) * 100, cap);
-
-      //   const cap = 100 / (d * Math.log10(population / 100000));
-      //   const prob = Math.min((reach / population) * 100, cap);
-
-      //   const prob = Math.min((reach / population) * 100, 100 / d);
+      const percentReach = (reach / population) * 100;
+      const prob = Math.min(percentReach, cap);
 
       probs.push(Number(prob.toFixed(2)));
     }
