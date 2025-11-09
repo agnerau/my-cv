@@ -11,6 +11,7 @@ export default function SmallWorld() {
   const [friends, setFriends] = useState("10");
   const [loose, setLoose] = useState("20");
   const [knowsMe, setKnowsMe] = useState(false);
+  const [knowsAll, setKnowsAll] = useState(false);
   const [data, setData] = useState<number[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -75,7 +76,9 @@ export default function SmallWorld() {
   // if loose or friends are infinite - probability doesnt grow because it just shows which degree is most possible
   // higher degrees are also combination of previous degress minus clustering
   const calculateProbabilities = useCallback((): number[] => {
-    if (knowsMe) return [100];
+    if (Number(friends) + Number(loose) > 8000000000) setKnowsAll(true);
+    else setKnowsAll(false);
+    if (knowsMe || knowsAll) return [100];
     const probs: number[] = [];
     const clusteringFactor =
       Number(friends) / (Number(friends) + Number(loose) + 1);
@@ -94,7 +97,7 @@ export default function SmallWorld() {
       probs.push(Number(prob.toFixed(2)));
     }
     return probs;
-  }, [friends, loose, knowsMe, population]);
+  }, [friends, loose, knowsMe, knowsAll, population]);
 
   useEffect(() => {
     setData(calculateProbabilities());
@@ -126,7 +129,7 @@ export default function SmallWorld() {
         type: "line",
         smooth: true,
         lineStyle: { width: 0 },
-        showSymbol: knowsMe ? true : false,
+        showSymbol: knowsMe || knowsAll ? true : false,
         areaStyle: {
           opacity: 0.8,
           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
