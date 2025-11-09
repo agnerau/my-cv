@@ -144,7 +144,7 @@ export default function Home() {
 
           <div className="w-full grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-0 md:gap-8 items-center text-white font-medium leading-relaxed">
             <div className="max-w-xs text-left space-y-4 mx-auto order-1 md:order-none">
-              <p className="description-text">
+              <p className="description-text right">
                 And finally, the <strong>superstar</strong> of all projects –
                 Nicki Minaj-inspired <strong>video game</strong>! This is a fun
                 and engaging game where your goal is to score as many{" "}
