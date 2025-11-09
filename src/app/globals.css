@@ -19,5 +19,9 @@
 
 .description-text {
   /* font-size: clamp(0.875rem, 1vw + 0.5rem, 1.25rem); */
-  @apply text-lg text-white font-normal leading-relaxed 2xl:text-sm  sm:text-xs;
+  @apply text-lg text-white font-normal leading-relaxed 2xl:text-sm sm:text-xs text-left;
+
+  &.right {
+    @apply md:text-right;
+  }
 }

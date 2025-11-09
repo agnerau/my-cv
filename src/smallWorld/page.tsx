@@ -104,16 +104,25 @@ export default function SmallWorld() {
     title: {
       text: "Connections between You and Me",
       left: "center",
+      textStyle: {
+        fontSize: window.innerWidth < 768 ? 12 : 18,
+      },
     },
-    tooltip: { trigger: "axis" },
+    tooltip: { trigger: "axis", confine: true },
     xAxis: {
       type: "category",
       data: Array.from({ length: maxDegrees }, (_, i) => `${i + 1}°`),
     },
-    yAxis: [{ type: "value", name: "Probability (%)" }],
+    yAxis: [
+      {
+        type: "value",
+        name: "Probability (%)",
+        nameLocation: window.innerWidth < 768 ? "middle" : "end",
+      },
+    ],
     series: [
       {
-        name: "Connection Probability",
+        name: "Connection Probability %",
         type: "line",
         smooth: true,
         lineStyle: { width: 0 },
@@ -154,7 +163,7 @@ export default function SmallWorld() {
 
             <label className="label-base">
               Loose connections:
-              <div className="relative inline-block group ml-1">
+              <div className="relative group ml-1 hidden md:inline-block">
                 <Info
                   size={16}
                   className="inline text-gray-400 cursor-pointer hover:text-gray-600"
@@ -206,7 +215,10 @@ export default function SmallWorld() {
           ) : (
             <ReactECharts
               option={option}
-              style={{ width: "100%", height: "100%" }}
+              style={{
+                width: "100%",
+                height: "100%",
+              }}
             />
           )}
         </div>

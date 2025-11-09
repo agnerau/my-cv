@@ -67,9 +67,8 @@ export default function Home() {
         </h2>
 
         <div className="min-h-screen flex flex-col md:flex-row items-center px-4 md:pl-8 md:pr-24 ">
-          <div className="w-full md:w-2/3 flex items-center justify-center order-2 md:order-1 ">
-            <div className="w-[80%] h-[90vh]  bg-white rounded-2xl shadow-xl flex items-center justify-center">
-              {/* sm:w-[90%] sm:h-[100vh] */}
+          <div className="w-full md:w-2/3 flex items-center justify-center order-2 md:order-1">
+            <div className="w-[100%] md:w-[80%] h-auto md:h-[90vh] bg-white rounded-2xl shadow-xl flex items-center justify-center p-0 md:p-4">
               <SmallWorldWrapper />
             </div>
           </div>
@@ -114,7 +113,7 @@ export default function Home() {
         <div className="min-h-screen flex flex-col md:flex-row items-center justify-between px-8 md:px-24">
           <div className="w-full md:w-1/2 text-center md:text-right space-y-6 p-8">
             <h3 className="text-4xl font-bold">Tote Bag Scene</h3>
-            <p className="description-text">
+            <p className="description-text right">
               Here you can see a <strong>3D model</strong> of a tote bag I
               designed :3. I used the <strong>Three.js</strong> library to
               create this scene and <strong>Blender</strong> to apply the design
@@ -134,7 +133,7 @@ export default function Home() {
             </p>
           </div>
           <div className="w-full md:w-1/2 flex items-center justify-center">
-            <div className="w-[80%] h-[80vh] bg-white rounded-2xl shadow-xl flex items-center justify-center">
+            <div className="w-[100%] h-[80vh] md:w-[80%] bg-white rounded-2xl shadow-xl flex items-center justify-center">
               <ToteBagScene />
             </div>
           </div>
@@ -163,12 +162,12 @@ export default function Home() {
               {isDesktop ? (
                 <NickiGameWrapper />
               ) : (
-                <div className="text-center p-6 bg-black/40 rounded-xl">
+                <div className="text-center p-10 bg-black/40 rounded-xl">
                   <p className="text-lg font-semibold">
-                    🎮 This game can only be played on a computer.
+                    👑 This game can only be played on a computer.
                   </p>
                   <p className="text-sm opacity-80 mt-2">
-                    Visit this page on your desktop or laptop to play!
+                    Visit this page on your desktop or laptop to play :3
                   </p>
                 </div>
               )}
