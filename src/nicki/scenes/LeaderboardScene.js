@@ -24,7 +24,8 @@ export default class LeaderboardScene extends Phaser.Scene {
     title.setOrigin(0.5);
 
     const startY = 130;
-    const lineHeight = 36;
+
+    const lineHeight = (height - 140) / 10;
     (async () => {
       if (this.highscores.length === 0) {
         this.highscores = await loadHighscores();
@@ -44,13 +45,21 @@ export default class LeaderboardScene extends Phaser.Scene {
             `${index + 1}. ${entry.name} - ${entry.score}`,
             {
               fontFamily: "Impact, sans-serif",
-              fontSize: "25px",
+              fontSize: `${lineHeight - 11}px`,
               color,
             }
           )
           .setOrigin(0.5);
       });
     })();
+
+    this.add.text(width - 200, height - 50, `Press ENTER to play again`, {
+      fontFamily: "Impact, sans-serif",
+      fontSize: "18px",
+      color: COLORS.WHITE,
+    });
+    // .setOrigin(0.5);
+
     this.input.keyboard.once("keydown-ENTER", () => {
       this.scene.start("StartScene");
     });
