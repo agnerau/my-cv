@@ -1,20 +1,13 @@
-export default class Entity {
-  constructor(scene, x, y, texture) {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const Phaser = require("phaser");
+import Phaser from "phaser";
 
-    const sprite = new Phaser.Physics.Arcade.Sprite(scene, x, y, texture);
-
-    Object.assign(this, sprite);
+export default class Entity extends Phaser.Physics.Arcade.Sprite {
+  constructor(scene, x, y, texture, minSpeed, maxSpeed, speedMultiplier = 1) {
+    super(scene, x, y, texture);
 
     this.scene = scene;
-    this.speed = 1;
+    this.speed = Phaser.Math.Between(minSpeed, maxSpeed) * speedMultiplier;
 
     scene.add.existing(this);
     scene.physics.add.existing(this);
-  }
-
-  update(multiplier = 1.15) {
-    this.y += this.speed * multiplier;
   }
 }

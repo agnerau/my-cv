@@ -23,28 +23,25 @@ export const healthManager = new HealthManager();
 export const pause = new Pause();
 
 export const ASSETS = {
-  dollars: [
-    "assets/img/money_1.png",
-    "assets/img/money_2.png",
-    "assets/img/money_3.png",
-    "assets/img/money_4.png",
-  ],
-  cardis: [
-    "assets/img/cardib_1.png",
-    "assets/img/cardib_2.png",
-    "assets/img/cardib_3.png",
-    "assets/img/cardib_4.png",
-  ],
-  anaconda: "assets/img/anaconda.png",
-  heel: "assets/img/heel.png",
-  health: "assets/img/health.png",
+  dollars: ["money_1", "money_2", "money_3", "money_4"],
+  cardis: ["cardib_1", "cardib_2", "cardib_3", "cardib_4"],
+  anaconda: "anaconda",
+  heel: "heel",
+  health: "health",
 };
 
 export function createSpawnManagers(scene: Phaser.Scene) {
   const dollarManager = new SpawnManager(
     "dollar",
     scene,
-    () => new Dollar(scene, Phaser.Math.RND.pick(ASSETS.dollars)),
+    (speedMultiplier: number) =>
+      new Dollar(
+        scene,
+        Phaser.Math.RND.pick(ASSETS.dollars),
+        150,
+        250,
+        speedMultiplier
+      ),
     1000,
     { jiter: 200, maxActive: 5 }
   );
@@ -52,7 +49,14 @@ export function createSpawnManagers(scene: Phaser.Scene) {
   const cardiManager = new SpawnManager(
     "cardi",
     scene,
-    () => new Cardi(scene, Phaser.Math.RND.pick(ASSETS.cardis)),
+    (speedMultiplier: number) =>
+      new Cardi(
+        scene,
+        Phaser.Math.RND.pick(ASSETS.cardis),
+        120,
+        200,
+        speedMultiplier
+      ),
     2000,
     { jitter: 200, scaleWithLevel: true, minDelay: 500, maxActive: 5 }
   );
@@ -60,7 +64,8 @@ export function createSpawnManagers(scene: Phaser.Scene) {
   const anacondaManager = new SpawnManager(
     "anaconda",
     scene,
-    () => new Anaconda(scene, ASSETS.anaconda),
+    (speedMultiplier: number) =>
+      new Anaconda(scene, ASSETS.anaconda, 180, 350, speedMultiplier),
     5000,
     { jitter: 400, scaleWithLevel: false, minDelay: 4000, maxActive: 1 }
   );
@@ -68,7 +73,8 @@ export function createSpawnManagers(scene: Phaser.Scene) {
   const heelManager = new SpawnManager(
     "heel",
     scene,
-    () => new Heel(scene, ASSETS.heel),
+    (speedMultiplier: number) =>
+      new Heel(scene, ASSETS.heel, 250, 400, speedMultiplier),
     9000,
     { jitter: 800, scaleWithLevel: false, minDelay: 9000, maxActive: 1 }
   );

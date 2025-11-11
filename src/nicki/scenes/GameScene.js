@@ -1,4 +1,4 @@
-import { createSpawnManagers, WINDOW_WIDTH, WINDOW_HEIGHT } from "../config";
+import { createSpawnManagers, WINDOW_HEIGHT } from "../config";
 import { scoreManager, healthManager, levelManager, COLORS } from "../config";
 import { showLoadingBar } from "../utils/ui";
 
@@ -65,13 +65,6 @@ export default class GameScene extends Phaser.Scene {
       loop: true,
     });
 
-    this.activeEntities = {
-      dollars: [],
-      cardis: [],
-      anacondas: [],
-      heels: [],
-    };
-
     this.nicki = this.physics.add.sprite(width / 2, height / 2, "nicki");
     this.nicki.setDisplaySize(width * 0.12, height * 0.24);
     this.nicki.setCollideWorldBounds(true);
@@ -85,6 +78,7 @@ export default class GameScene extends Phaser.Scene {
     this.cursors = this.input.keyboard.createCursorKeys();
 
     this.entities = this.physics.add.group();
+    this.clearEntities();
 
     this.physics.add.overlap(
       this.nicki,
@@ -186,8 +180,6 @@ export default class GameScene extends Phaser.Scene {
     const { dollarManager, cardiManager, anacondaManager, heelManager } =
       this.spawnManagers;
 
-    const speedMultiplier = 1 + levelManager.level * 0.2;
-
     if (
       dollarManager.shouldSpawn(
         0,
@@ -195,26 +187,7 @@ export default class GameScene extends Phaser.Scene {
         this.activeEntities.dollars.length
       )
     ) {
-      const dollarKey = Phaser.Math.RND.pick([
-        "money_1",
-        "money_2",
-        "money_3",
-        "money_4",
-      ]);
-      const entity = this.physics.add.sprite(
-        Phaser.Math.Between(0, WINDOW_WIDTH),
-        -50,
-        dollarKey
-      );
-      entity.setScale(0.8);
-      entity.speed = Phaser.Math.Between(
-        150 * speedMultiplier,
-        250 * speedMultiplier
-      );
-      entity.type = "dollar";
-      this.entities.add(entity);
-      this.activeEntities.dollars.push(entity);
-      dollarManager.spawn();
+      this.spawnEntity("dollar");
     }
 
     if (
@@ -224,26 +197,7 @@ export default class GameScene extends Phaser.Scene {
         this.activeEntities.cardis.length
       )
     ) {
-      const cardiKey = Phaser.Math.RND.pick([
-        "cardib_1",
-        "cardib_2",
-        "cardib_3",
-        "cardib_4",
-      ]);
-      const entity = this.physics.add.sprite(
-        Phaser.Math.Between(0, WINDOW_WIDTH),
-        -50,
-        cardiKey
-      );
-      entity.setScale(0.8);
-      entity.speed = Phaser.Math.Between(
-        120 * speedMultiplier,
-        200 * speedMultiplier
-      );
-      entity.type = "cardi";
-      this.entities.add(entity);
-      this.activeEntities.cardis.push(entity);
-      cardiManager.spawn();
+      this.spawnEntity("cardi");
     }
 
     if (
@@ -253,20 +207,7 @@ export default class GameScene extends Phaser.Scene {
         this.activeEntities.anacondas.length
       )
     ) {
-      const entity = this.physics.add.sprite(
-        Phaser.Math.Between(0, WINDOW_WIDTH),
-        -50,
-        "anaconda"
-      );
-      entity.setScale(0.65);
-      entity.speed = Phaser.Math.Between(
-        180 * speedMultiplier,
-        350 * speedMultiplier
-      );
-      entity.type = "anaconda";
-      this.entities.add(entity);
-      this.activeEntities.anacondas.push(entity);
-      anacondaManager.spawn();
+      this.spawnEntity("anaconda");
     }
 
     if (
@@ -276,20 +217,7 @@ export default class GameScene extends Phaser.Scene {
         this.activeEntities.heels.length
       )
     ) {
-      const entity = this.physics.add.sprite(
-        Phaser.Math.Between(0, WINDOW_WIDTH),
-        -50,
-        "heel"
-      );
-      entity.setScale(0.7);
-      entity.speed = Phaser.Math.Between(
-        250 * speedMultiplier,
-        400 * speedMultiplier
-      );
-      entity.type = "heel";
-      this.entities.add(entity);
-      this.activeEntities.heels.push(entity);
-      heelManager.spawn();
+      this.spawnEntity("heel");
     }
 
     this.entities.children.iterate((entity) => {
@@ -298,23 +226,50 @@ export default class GameScene extends Phaser.Scene {
       entity.y += (entity.speed / 1000) * 16;
 
       if (entity.y > WINDOW_HEIGHT + 50) {
-        entity.destroy();
-
-        if (entity.type === "dollar") {
-          const index = this.activeEntities.dollars.indexOf(entity);
-          if (index > -1) this.activeEntities.dollars.splice(index, 1);
-        } else if (entity.type === "cardi") {
-          const index = this.activeEntities.cardis.indexOf(entity);
-          if (index > -1) this.activeEntities.cardis.splice(index, 1);
-        } else if (entity.type === "anaconda") {
-          const index = this.activeEntities.anacondas.indexOf(entity);
-          if (index > -1) this.activeEntities.anacondas.splice(index, 1);
-        } else if (entity.type === "heel") {
-          const index = this.activeEntities.heels.indexOf(entity);
-          if (index > -1) this.activeEntities.heels.splice(index, 1);
-        }
+        this.removeEntity(entity);
       }
     });
+  }
+
+  spawnEntity(type) {
+    const { dollarManager, cardiManager, anacondaManager, heelManager } =
+      this.spawnManagers;
+    const speedMultiplier = 1 + levelManager.level * 0.2;
+    let entity;
+    switch (type) {
+      case "dollar":
+        entity = dollarManager.spawn(speedMultiplier);
+        break;
+      case "cardi":
+        entity = cardiManager.spawn(speedMultiplier);
+        break;
+      case "anaconda":
+        entity = anacondaManager.spawn(speedMultiplier);
+        break;
+      case "heel":
+        entity = heelManager.spawn(speedMultiplier);
+        break;
+    }
+
+    if (entity) {
+      this.entities.add(entity);
+      this.activeEntities[`${type}s`].push(entity);
+    }
+  }
+
+  removeEntity(entity) {
+    entity.destroy();
+
+    const pluralType = `${entity.type}s`;
+
+    const list = this.activeEntities[pluralType];
+    if (!list) {
+      console.warn(`Unknown entity type: ${type}`);
+      return;
+    }
+
+    const index = list.indexOf(entity);
+    if (index > -1) list.splice(index, 1);
   }
 
   clearEntities() {
@@ -345,18 +300,14 @@ export default class GameScene extends Phaser.Scene {
     if (entity.type === "dollar") {
       scoreManager.addPoints(100 * (levelManager.level + 1));
       playRandomCollect();
-      entity.destroy();
-      const index = this.activeEntities.dollars.indexOf(entity);
-      if (index > -1) this.activeEntities.dollars.splice(index, 1);
+      this.removeEntity(entity);
     } else if (entity.type === "cardi") {
       if (!nicki.shieldActive) {
         hitSound.play();
         scoreManager.minusPoints(100 * (levelManager.level + 1));
         healthManager.minusHealth(1);
         this.drawHealth();
-        entity.destroy();
-        const index = this.activeEntities.cardis.indexOf(entity);
-        if (index > -1) this.activeEntities.cardis.splice(index, 1);
+        this.removeEntity(entity);
       }
     } else if (entity.type === "anaconda") {
       scoreManager.addPoints(1000 * (levelManager.level + 1));
@@ -364,15 +315,11 @@ export default class GameScene extends Phaser.Scene {
       this.activeEntities.anacondas = this.activeEntities.anacondas.filter(
         (e) => e !== entity
       );
-      entity.destroy();
-      const index = this.activeEntities.anacondas.indexOf(entity);
-      if (index > -1) this.activeEntities.anacondas.splice(index, 1);
+      this.removeEntity(entity);
     } else if (entity.type === "heel") {
       this.activateShield(7000);
       playRandomCollect();
-      entity.destroy();
-      const index = this.activeEntities.heels.indexOf(entity);
-      if (index > -1) this.activeEntities.heels.splice(index, 1);
+      this.removeEntity(entity);
     }
   }
 

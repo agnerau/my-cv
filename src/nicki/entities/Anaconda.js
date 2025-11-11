@@ -1,9 +1,13 @@
 import Entity from "./Entity.js";
 
 export default class Anaconda extends Entity {
-  constructor(scene, textureKey = "anaconda") {
-    const x = Phaser.Math.Between(0, scene.scale.width - 64);
-    super(scene, x, -64, textureKey);
-    this.speed = Phaser.Math.Between(7, 12);
+  constructor(scene, anacondaKey, minSpeed, maxSpeed, speedMultiplier = 1) {
+    const x = Phaser.Math.Between(0, scene.scale.width);
+    const y = -50;
+
+    super(scene, x, y, anacondaKey, minSpeed, maxSpeed, speedMultiplier);
+
+    this.setScale(0.65);
+    this.type = "anaconda";
   }
 }

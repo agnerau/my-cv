@@ -34,8 +34,8 @@ export default class SpawnManager {
     return true;
   }
 
-  spawn() {
+  spawn(...args) {
     this.lastSpawnTime = this.scene.time.now;
-    // return this.spawnFn();
+    return this.spawnFn(...args);
   }
 }
