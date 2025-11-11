@@ -72,7 +72,7 @@ export default class StartScene extends Phaser.Scene {
       this.input.removeAllListeners();
     });
 
-    this.registry.set("nickiSpeed", 5);
+    this.registry.set("nickiSpeed", 200);
   }
 
   showRulesScreen() {

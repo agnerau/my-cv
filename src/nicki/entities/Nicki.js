@@ -1,46 +1,69 @@
-import Entity from "./Entity.js";
+import Phaser from "phaser";
 
-export default class Nicki extends Entity {
-  constructor(scene, textureKey = "nicki", shieldKey = "nickiShield") {
-    const x = Phaser.Math.Between(0, scene.scale.width - 64);
-    const y = scene.scale.height / 2;
-    super(scene, x, y, textureKey);
+export default class Nicki extends Phaser.Physics.Arcade.Sprite {
+  constructor(scene, x, y) {
+    super(scene, x, y, "nicki");
+
+    this.scene = scene;
+    scene.add.existing(this);
+    scene.physics.add.existing(this);
 
     this.setCollideWorldBounds(true);
+    this.setDepth(1);
+    this.setOriginalSize();
 
+    this.speed = scene.registry.get("nickiSpeed") || 200;
+    this.speed *= 1.2;
     this.shieldActive = false;
     this.shieldEndTime = 0;
-    this.shieldSprite = scene.add.sprite(x, y, shieldKey);
-    this.shieldSprite.setVisible(false);
 
-    this.speed = 300;
-    this.cursors = scene.input.keyboard.addKeys({
-      up: Phaser.Input.Keyboard.KeyCodes.W,
-      down: Phaser.Input.Keyboard.KeyCodes.S,
-      left: Phaser.Input.Keyboard.KeyCodes.A,
-      right: Phaser.Input.Keyboard.KeyCodes.D,
-    });
+    scene.registry.set("nickiSpeed", this.speed);
   }
 
-  update(time, delta, speedMultiplier = 1.2) {
-    const velocity = this.speed * speedMultiplier;
-    this.body.setVelocity(0);
+  update(cursors) {
+    if (!cursors) return;
 
-    if (this.cursors.up.isDown) this.body.setVelocityY(-velocity);
-    if (this.cursors.down.isDown) this.body.setVelocityY(velocity);
-    if (this.cursors.left.isDown) this.body.setVelocityX(-velocity);
-    if (this.cursors.right.isDown) this.body.setVelocityX(velocity);
+    this.setVelocity(0);
 
-    this.shieldSprite.setPosition(this.x, this.y);
-    if (this.shieldActive && this.scene.time.now > this.shieldEndTime) {
-      this.shieldActive = false;
-      this.shieldSprite.setVisible(false);
+    if (cursors.left.isDown) {
+      this.setVelocityX(-this.speed);
+    } else if (cursors.right.isDown) {
+      this.setVelocityX(this.speed);
+    }
+
+    if (cursors.up.isDown) {
+      this.setVelocityY(-this.speed);
+    } else if (cursors.down.isDown) {
+      this.setVelocityY(this.speed);
     }
   }
 
-  activateShield(durationSeconds) {
+  activateShield(duration = 7000) {
     this.shieldActive = true;
-    this.shieldSprite.setVisible(true);
-    this.shieldEndTime = this.scene.time.now + durationSeconds * 1000;
+    this.shieldEndTime = this.scene.time.now + duration;
+    this.setTexture("nicki_shield");
+    this.setShieldSize();
+
+    this.scene.time.delayedCall(duration, () => {
+      this.shieldActive = false;
+      this.setTexture("nicki");
+      this.setOriginalSize();
+    });
+  }
+
+  setOriginalSize() {
+    this.setDisplaySize(
+      this.scene.scale.width * 0.12,
+      this.scene.scale.height * 0.24
+    );
+    this.body.setSize(this.scene.scale.width, this.scene.scale.height);
+  }
+
+  setShieldSize() {
+    this.setDisplaySize(
+      this.scene.scale.width * 0.15,
+      this.scene.scale.height * 0.3
+    );
+    this.body.setSize(this.scene.scale.width, this.scene.scale.height);
   }
 }

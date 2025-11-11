@@ -1,6 +1,7 @@
 import { createSpawnManagers, WINDOW_HEIGHT } from "../config";
 import { scoreManager, healthManager, levelManager, COLORS } from "../config";
 import { showLoadingBar } from "../utils/ui";
+import Nicki from "../entities/Nicki";
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -33,7 +34,7 @@ export default class GameScene extends Phaser.Scene {
     scoreManager.resetScore();
 
     if (!this.musicStarted) {
-      this.music = this.sound.add("music", { loop: true, volume: 0.2 });
+      this.music = this.sound.add("music", { loop: true, volume: 0.5 });
       this.music.play();
       this.musicStarted = true;
     }
@@ -65,15 +66,7 @@ export default class GameScene extends Phaser.Scene {
       loop: true,
     });
 
-    this.nicki = this.physics.add.sprite(width / 2, height / 2, "nicki");
-    this.nicki.setDisplaySize(width * 0.12, height * 0.24);
-    this.nicki.setCollideWorldBounds(true);
-    let nickiSpeed = this.registry.get("nickiSpeed");
-    this.nicki.speed = nickiSpeed * 1.2;
-    this.registry.set("nickiSpeed", this.nicki.speed);
-    this.nicki.shieldActive = false;
-    this.nicki.shieldEndTime = 0;
-    // this.nicki = new Nicki(this);
+    this.nicki = new Nicki(this, width / 2, height / 2);
 
     this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -144,24 +137,10 @@ export default class GameScene extends Phaser.Scene {
     this.drawHealth();
   }
 
-  update(time, delta) {
+  update() {
     if (this.isPaused) return;
 
-    const velocity = this.nicki.speed;
-    if (this.cursors.left.isDown) this.nicki.x -= velocity;
-    if (this.cursors.right.isDown) this.nicki.x += velocity;
-    if (this.cursors.up.isDown) this.nicki.y -= velocity;
-    if (this.cursors.down.isDown) this.nicki.y += velocity;
-
-    if (this.nicki.shieldActive && time >= this.nicki.shieldEndTime) {
-      this.nicki.shieldActive = false;
-      this.nicki.setTexture("nicki");
-      this.nicki.setDisplaySize(
-        this.scale.width * 0.12,
-        this.scale.height * 0.24
-      );
-      this.nicki.body.setSize(this.scale.width, this.scale.height);
-    }
+    this.nicki.update(this.cursors);
 
     this.spawnEntities();
 
@@ -317,19 +296,10 @@ export default class GameScene extends Phaser.Scene {
       );
       this.removeEntity(entity);
     } else if (entity.type === "heel") {
-      this.activateShield(7000);
+      this.nicki.activateShield(7000);
       playRandomCollect();
       this.removeEntity(entity);
     }
-  }
-
-  activateShield(duration) {
-    const { width, height } = this.scale;
-    this.nicki.shieldActive = true;
-    this.nicki.shieldEndTime = this.time.now + duration;
-    this.nicki.setTexture("nicki_shield");
-    this.nicki.setDisplaySize(width * 0.15, height * 0.3);
-    this.nicki.body.setSize(width, height);
   }
 
   drawHealth() {

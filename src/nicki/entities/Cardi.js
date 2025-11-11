@@ -8,6 +8,7 @@ export default class Cardi extends Entity {
     super(scene, x, y, cardiKey, minSpeed, maxSpeed, speedMultiplier);
 
     this.setScale(0.8);
+    this.setDepth(5);
     this.type = "cardi";
   }
 }
