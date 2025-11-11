@@ -1,42 +1,31 @@
 import Phaser from "phaser";
-import { formatTime } from "./time";
+import HealthManager from "../managers/HealthManager";
 
-export function drawGameHUD(
+export function drawHealth(
   scene: Phaser.Scene,
-  score: number,
-  level: number,
-  topScore: number,
-  health: number,
-  remainingSeconds: number
+  healthIcons: Phaser.GameObjects.Image[],
+  healthManager: HealthManager
 ) {
-  const width = scene.scale.width;
-  const height = scene.scale.height;
-  const graphics = scene.add.graphics();
-  graphics.clear();
-
-  const textStyle: Phaser.Types.GameObjects.Text.TextStyle = {
-    fontSize: "20px",
-    color: "#ffffff",
-  };
-
-  scene.add.text(20, 20, `Score: ${score}`, textStyle);
-  scene.add.text(200, 20, `Level: ${level}`, textStyle);
-  scene.add.text(380, 20, `Top: ${topScore}`, textStyle);
-
-  scene.add.text(width - 100, 20, formatTime(remainingSeconds), {
-    fontSize: "24px",
-    color: "#ff69b4",
-  });
-
-  for (let i = 0; i < health; i++) {
-    scene.add.image(width - 200 + i * 40, 25, "health").setScale(0.4);
+  healthIcons.forEach((icon) => icon.destroy());
+  healthIcons = [];
+  const height = scene.scale.width < 760 ? scene.scale.height - 50 : 40;
+  const width = scene.scale.width < 760 ? 50 : scene.scale.width - 350;
+  for (let i = 0; i < healthManager.health; i++) {
+    const heart = scene.add
+      .image(width + i * 50, height, "health")
+      .setDepth(10);
+    heart.setDisplaySize(40, 35);
+    healthIcons.push(heart);
   }
+  return healthIcons;
 }
 
-export function drawBackground(scene: Phaser.Scene, key: string) {
-  const bg = scene.add.image(0, 0, key);
-  bg.setOrigin(0);
-  bg.setDisplaySize(scene.scale.width, scene.scale.height);
+export function formatTime(seconds: number) {
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${mins.toString().padStart(2, "0")}:${secs
+    .toString()
+    .padStart(2, "0")}`;
 }
 
 export function showLoadingBar(scene: Phaser.Scene) {

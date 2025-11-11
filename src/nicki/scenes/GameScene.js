@@ -1,6 +1,6 @@
 import { createSpawnManagers, WINDOW_HEIGHT } from "../config";
 import { scoreManager, healthManager, levelManager, COLORS } from "../config";
-import { showLoadingBar } from "../utils/ui";
+import { showLoadingBar, formatTime, drawHealth } from "../utils/ui";
 import Nicki from "../entities/Nicki";
 
 export default class GameScene extends Phaser.Scene {
@@ -55,7 +55,7 @@ export default class GameScene extends Phaser.Scene {
       callback: () => {
         this.remainingTime -= 1000;
         const seconds = Math.ceil(this.remainingTime / 1000);
-        this.timerText.setText(this.formatTime(seconds));
+        this.timerText.setText(formatTime(seconds));
 
         if (this.remainingTime <= 0) {
           this.clearEntities();
@@ -134,7 +134,7 @@ export default class GameScene extends Phaser.Scene {
     this.input.keyboard.on("keydown-P", () => this.togglePause());
 
     this.healthIcons = [];
-    this.drawHealth();
+    this.healthIcons = drawHealth(this, this.healthIcons, healthManager);
   }
 
   update() {
@@ -285,7 +285,7 @@ export default class GameScene extends Phaser.Scene {
         hitSound.play();
         scoreManager.minusPoints(100 * (levelManager.level + 1));
         healthManager.minusHealth(1);
-        this.drawHealth();
+        this.healthIcons = drawHealth(this, this.healthIcons, healthManager);
         this.removeEntity(entity);
       }
     } else if (entity.type === "anaconda") {
@@ -300,28 +300,6 @@ export default class GameScene extends Phaser.Scene {
       playRandomCollect();
       this.removeEntity(entity);
     }
-  }
-
-  drawHealth() {
-    this.healthIcons.forEach((icon) => icon.destroy());
-    this.healthIcons = [];
-    const height = this.scale.width < 760 ? this.scale.height - 50 : 40;
-    const width = this.scale.width < 760 ? 50 : this.scale.width - 350;
-    for (let i = 0; i < healthManager.health; i++) {
-      const heart = this.add
-        .image(width + i * 50, height, "health")
-        .setDepth(10);
-      heart.setDisplaySize(40, 35);
-      this.healthIcons.push(heart);
-    }
-  }
-
-  formatTime(seconds) {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins.toString().padStart(2, "0")}:${secs
-      .toString()
-      .padStart(2, "0")}`;
   }
 
   togglePause() {
