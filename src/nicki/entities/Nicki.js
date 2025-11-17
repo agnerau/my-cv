@@ -15,7 +15,8 @@ export default class Nicki extends Phaser.Physics.Arcade.Sprite {
     this.speed = scene.registry.get("nickiSpeed") || 200;
     this.speed *= 1.2;
     this.shieldActive = false;
-    this.shieldEndTime = 0;
+    this.shieldElapsed = 0;
+    this.shieldDuration = 0;
 
     scene.registry.set("nickiSpeed", this.speed);
   }
@@ -40,15 +41,20 @@ export default class Nicki extends Phaser.Physics.Arcade.Sprite {
 
   activateShield(duration = 7000) {
     this.shieldActive = true;
-    this.shieldEndTime = this.scene.time.now + duration;
+    this.shieldElapsed = 0;
+    this.shieldDuration = duration;
     this.setTexture("nicki_shield");
     this.setShieldSize();
+  }
+  updateShield(delta) {
+    if (!this.shieldActive) return;
 
-    this.scene.time.delayedCall(duration, () => {
+    this.shieldElapsed += delta;
+    if (this.shieldElapsed >= this.shieldDuration) {
       this.shieldActive = false;
       this.setTexture("nicki");
       this.setOriginalSize();
-    });
+    }
   }
 
   setOriginalSize() {

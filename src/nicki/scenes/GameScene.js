@@ -137,8 +137,9 @@ export default class GameScene extends Phaser.Scene {
     this.healthIcons = drawHealth(this, this.healthIcons, healthManager);
   }
 
-  update() {
+  update(time, delta) {
     if (this.isPaused) return;
+    this.nicki.updateShield(delta);
 
     this.nicki.update(this.cursors);
 
