@@ -56,7 +56,7 @@ export default class Nicki extends Phaser.Physics.Arcade.Sprite {
       this.scene.scale.width * 0.12,
       this.scene.scale.height * 0.24
     );
-    this.body.setSize(this.scene.scale.width, this.scene.scale.height);
+    this.setBodySize();
   }
 
   setShieldSize() {
@@ -64,6 +64,13 @@ export default class Nicki extends Phaser.Physics.Arcade.Sprite {
       this.scene.scale.width * 0.15,
       this.scene.scale.height * 0.3
     );
-    this.body.setSize(this.scene.scale.width, this.scene.scale.height);
+    this.setBodySize();
+  }
+
+  setBodySize() {
+    const origWidth = this.texture.getSourceImage().width;
+    const origHeight = this.texture.getSourceImage().height;
+
+    this.body.setSize(origWidth * 0.75, origHeight);
   }
 }
